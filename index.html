@@ -21,22 +21,40 @@
 
         <!-- 2. Center: Insert your Search Bar here later -->
         <div class="header-search">
-            <!-- Search bar input will go here -->
+    <form class="search-form" id="store-search-form" method="get">
+        <div class="search-input-wrapper">
+            <input type="text" name="q" id="search-query" placeholder="Search product..." autocomplete="off" class="search-input">
+            <button type="submit" class="search-btn" aria-label="Search">
+                <!-- Simple Search Icon using Text (or you can use an SVG later) -->
+                🔍
+            </button>
         </div>
+          </form>
 
-        <!-- 3. Right Side: Navigation Utilities -->
-        <nav class="header-right">
-            <a href="/account" class="nav-link">Account</a>
+        </div>
+            <div class="responsive-main-header"
+  
+        <div class="header-right">
+            <div class="main-header-right">
+            <a href="/account" class="nav-link custom-account-link">Account</a>
+            </div>
+            <div class="h-search h-panel">
             <a href="/wishlist" class="nav-link icon-wishlist">Wishlist</a>
-            <a href="/cart" class="nav-link icon-cart">
-                Cart <span class="cart-counter">0</span>
+            <div class="block block-search">
+            </div>
+            </div>
+            <div data-block="mini-cart" class="minicart-wrapper">
+            <a href="/cart" class="nav-link">
+            Cart<span class="cart-counter">0</span>
             </a>
-        </nav>
+            </div>
+        </div>
+</div>
+
     </div>
+
 </header>
-    <h1>Men Shoes</h1>
     <script>
-        console.log('Hello World!');
     </script>
 </body>
 </html>
