@@ -1,3 +1,10 @@
+body {
+    font-family: 'Maven Pro',Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+}
+
 .main-header .container {
     display: flex;
     justify-content: space-between; 
@@ -25,5 +32,45 @@
     padding: 2px 6px;
     border-radius: 10px;
     font-size: 12px;
+}
+
+@media (min-width:767px){
+button.menu-toggle {
+display:none;
+}
+}
+
+input#search-query {
+    height: 2.8rem;
+    border-color: #ddd;
+    color: #0f1111;
+    font-size: 1.4rem;
+    padding-left: 12px;
+    padding-right: 10rem;
+}
+
+.nav-link::before {
+    content: ''; /* Mandatory: keeps the virtual box active */
+    display: inline-block; /* Mandatory: allows width and height to function */
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+/* 2. Map the exact path to your images folder */
+.header-right .main-header-right a.custom-account-link::before {
+    background-image: url('assets/logo%20and%20icons/accountNew.svg');
+}
+
+.link-wishlist::before {
+    background-image: url('assets/logo%20and%20icons/wishlistNew.svg');
+}
+
+.sk-mini-cart::before {
+    background-image: url('assets/logo%20and%20icons/cartNew.svg');
 }
 
