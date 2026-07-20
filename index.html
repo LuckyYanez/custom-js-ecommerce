@@ -2,10 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Shoe Store using JS</title>
 </head>
 <body>
+<header class="main-header">
+    <div class="container">
+        <!-- 1. Left Side: Mobile Menu Button & Logo -->
+        <div class="header-left">
+            <button class="menu-toggle" aria-label="Toggle Navigation">
+                <span></span>
+            </button>
+            <a class="logo" href="/">
+                <img src="https://githubusercontent.com" alt="JS Portfolio Logo" width="170">
+            </a>
+        </div>
+
+        <!-- 2. Center: Insert your Search Bar here later -->
+        <div class="header-search">
+            <!-- Search bar input will go here -->
+        </div>
+
+        <!-- 3. Right Side: Navigation Utilities -->
+        <nav class="header-right">
+            <a href="/account" class="nav-link">Account</a>
+            <a href="/wishlist" class="nav-link icon-wishlist">Wishlist</a>
+            <a href="/cart" class="nav-link icon-cart">
+                Cart <span class="cart-counter">0</span>
+            </a>
+        </nav>
+    </div>
+</header>
     <h1>Men Shoes</h1>
     <script>
         console.log('Hello World!');
