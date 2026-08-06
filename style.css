@@ -321,15 +321,14 @@ span.base {
 }
 
 .shop-layout {
-    max-width: 1600px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 40px 20px;
 }
 
 /* Responsive grid for product cards */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 24px;
 }
 
@@ -376,6 +375,698 @@ span.base {
     }
 }
 
-.column-main.shop.main-shop {
-    display:flex;
+aside.shop-sidebar {
+    width:17.2rem;
 }
+select#sorter {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('assets/logo%20and%20icons/arrow-down.svg');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding: 0 3rem 0.3rem 1rem;
+    font-family: 'MavenPro', sans-serif;
+    height: 47px;
+    border: 1px solid #e0e0e0;
+}
+
+span.total-count {
+    font-size: 17px;
+}
+
+.filter-option-wrapper {
+    box-sizing: border-box;
+    border: 1px solid #cfcfcfcc;
+}
+
+/* ==========================================================================
+   2. RE-ENGINEERED ACCORDION HEADERS WITH COMPONENT ARROWS
+   ========================================================================== */
+.filter-option-availability, 
+.filter-option-gender, 
+.filter-option-sizing {
+    background-color: #f4f4f4;
+    padding: 13px 12px 14px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.filter-title {
+    font-family: 'MavenPro', sans-serif;
+    font-weight: 600;
+}
+
+/* Accordion Engine Logic (Hidden Checkbox Hack) */
+.accordion-toggle {
+    display: none;
+}
+
+.filter-content {
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+/* Angle Graphic via URL Element */
+.accordion-arrow {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('assets/logo%20and%20icons/arrow-down.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transition: transform 0.3s ease;
+    /* Flips arrow upwards default because checked = open */
+    transform: rotate(180deg); 
+}
+
+/* Toggle Interaction States */
+.accordion-toggle:not(:checked) ~ .filter-content {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+/* Flips the angle asset downwards when closed */
+.accordion-toggle:not(:checked) ~ .filter-option-header .accordion-arrow {
+    transform: rotate(0deg);
+}
+
+/* ==========================================================================
+   3. AVAILABILITY TOGGLE & TEXT CENTERING VERTICAL CORRECTIONS
+   ========================================================================== */
+.filter-availability-options {
+    display: flex;
+    align-items: center; /* Centers items vertically on single or dual line wraps */
+    gap: 12px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 22px;
+    flex-shrink: 0; /* Prevents switch box from getting squished by text */
+    align-self: center; /* Explicit backup placement validation */
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: background-color 0.3s ease;
+}
+
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    left: 4px;
+    bottom: 3.5px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input:checked + .slider {
+    background-color: #4CAF50;
+}
+
+input:checked + .slider::before {
+    transform: translateX(26px);
+}
+
+.text-subdued {
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.3;
+}
+
+/* ==========================================================================
+   4. CUSTOM CHECKBOX ENGINE (GENDER & BRAND LISTS)
+   ========================================================================== */
+ol.items.gender-filter {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding: 15px;
+    list-style: none;
+}
+
+.items .item {
+    margin-bottom: 10px;
+}
+.items .item:last-child {
+    margin-bottom: 0;
+}
+
+/* Checkbox Row Box Setup */
+.custom-checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+}
+
+.custom-checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0; width: 0;
+}
+
+/* Default empty state matching your design specs */
+.checkbox-box {
+    height: 18px;
+    width: 18px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 10px;
+    display: inline-block;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+/* Checked state - Swaps background rendering to your custom SVG graphic asset */
+.custom-checkbox-container input:checked ~ .checkbox-box {
+    background-image: url('assets/logo%20and%20icons/checkbox.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border-color: transparent; /* Seamless asset overlay border frame */
+}
+
+.filter-label {
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.count {
+    color: #888;
+    margin-left: auto; /* Automatically forces numerical counts to slide cleanly to the right boundary */
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   5. SIZE CONTROLS GRID TEMPLATE
+   ========================================================================== */
+.size-filter-options,
+.brand-filter-options,
+.color-filter-options,
+.price-filter-options {
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.filter-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.filter-grid a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 8px 0;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.85rem;
+    border-radius: 3px;
+}
+
+/* ==========================================================================
+   6. COLOR SWATCHES ROW AND SELECTION STYLING
+   ========================================================================== */
+.color-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for neat sidebar distribution */
+    gap: 10px;
+}
+
+.swatch-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.swatch-item input {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+}
+
+.swatch-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 8px;
+    display: inline-block;
+    flex-shrink: 0;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Adds a small ring outline circle when a color is selected */
+.swatch-item input:checked ~ .swatch-circle {
+    outline: 2px solid #111;
+    outline-offset: 2px;
+}
+
+.swatch-name {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* ==========================================================================
+   7. PRICE RANGE DUAL ENGINE FALLBACK FRAME
+   ========================================================================== */
+.price-slider-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+/* Styling foundations matching framework dual handles (such as jQuery UI Slider) */
+.price-slider {
+    position: relative;
+    height: 6px;
+    background-color: #ddd;
+    border-radius: 3px;
+    margin: 10px 5px;
+}
+
+.ui-slider-range {
+    position: absolute;
+    height: 100%;
+    background-color: #788893;
+    border-radius: 3px;
+}
+
+.ui-slider-handle {
+    position: absolute;
+    top: -5px;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border: 2px solid #95abb9;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: -8px; /* Perfectly centers handle circle over its slider tracking coordinate */
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   8. COLUMN SEPARATION LAYOUT GRID ENGINE
+   ========================================================================== */
+.main-shop {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px; 
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.shop-sidebar {
+    flex-shrink: 0;
+}
+
+#product-listing {
+    flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+    .main-shop {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .filter-option-wrapper {
+        max-width: 100%;
+    }
+}
+
+.toolbar-sorter.sorter {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 1em;
+}
+
+ol.items.brand-filter {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+.star-rating-wrapper {
+    display: flex;
+    gap: 3px;
+    padding: 10px 0 2px 20px; /* Aligns comfortably between image frame and brand label */
+}
+
+.star-container {
+    position: relative;
+    width: 16px;  /* Clean portfolio footprint scaling */
+    height: 15px;
+}
+
+.star-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Background Unshaded Color Specification */
+.star-empty {
+    fill: #EDEDE9; 
+}
+
+/* Foreground Shaded Clip Mask Engine */
+.star-filled-clip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Foreground Graded Color Specification */
+.star-filled {
+    fill: #0FFFFF; 
+    width: 16px;
+    height: 15px;
+}
+
+/* ==========================================================================
+   2. TOP RIGHT ACCENT BUTTONS & CLICK STATE TRANSFORMS
+   ========================================================================== */
+.product-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+.wishlist-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Pins cleanly to the top-right corner perimeter */
+    background: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    padding: 0;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease;
+}
+
+.wishlist-btn:hover {
+    transform: scale(1.08);
+}
+
+.wishlist-icon-img {
+    width: 18px;
+    height: 18px;
+    display: block;
+    transition: filter 0.2s ease;
+}
+
+/* Added Favorite State Trigger: Swaps default image rendering into a vibrant hot pink fill hue */
+.wishlist-btn.active {
+    background-color: #fff0f5; 
+}
+.wishlist-btn.active .wishlist-icon-img {
+    /* Uses CSS color processing matrix filters to force the black asset into a filled pink vector color */
+    filter: invert(27%) sepia(91%) saturate(2252%) x(345deg) y(100%) z(100%) drop-shadow(0px 0px 1px #ff1493);
+    /* Alternative fallback option: If filter rendering gets distorted on your display engine, you can manually use: fill: #ff1493; inside an inline svg element block */
+}
+
+/* ==========================================================================
+   3. INTEGRATED SIZE LIST MATRICES (STATIC LABELS WRAPPER)
+   ========================================================================== */
+.product-card-sizes-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 10px 0;
+    pointer-events: none; /* Disables click cues completely to show it is informational only */
+    user-select: none;
+}
+
+.size-tag {
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    border-radius: 2px;
+    font-weight: 500;
+    text-align: center;
+    min-width: 22px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+/* Active Stock Variant Configuration */
+.size-available {
+    background-color: #f4f4f4;
+    color: #222;
+    border: 1px solid #e0e0e0;
+}
+
+/* Depleted Stock Variant Configuration (Grayed Out with Diagonal Line Striking) */
+.size-unavailable {
+    background-color: #fafafa;
+    color: #b5b5b5;
+    border: 1px solid #eaeaea;
+    text-decoration: line-through; /* Striking through text directly */
+    opacity: 0.65;
+}
+
+/* Typography Base Formatting Cleanups */
+.product-brand-tag {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: #777;
+    font-weight: 500;
+}
+.product-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 1px 0 4px 0;
+    color: #111;
+}
+
+div#product-grid .product-item {
+    border: 1px solid #cfcfcfcc;
+        border-radius: 10px;
+    overflow:hidden;
+}
+
+.product-info {
+    padding: 20px;
+}
+
+aside.shop-sidebar h3 {
+    margin-block-start: 0;
+}
+
+/* --- Global Typography Elements --- */
+footer h4, 
+footer p, 
+footer span, 
+footer a, 
+footer button, 
+footer input {
+    font-family: 'MavenPro', Arial, sans-serif;
+    box-sizing: border-box; /* Ensures padding never breaks planned widths */
+}
+
+footer a {
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.2s ease;
+}
+
+footer a:hover {
+    opacity: 0.7;
+}
+
+/* --- Container Core Layouts --- */
+.footer-container-top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allows sections to wrap cleanly on tablet viewports */
+    gap: 20px;
+    border-bottom: 1px solid #858585;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 30px 20px; /* Side padding preserves edge buffers safely */
+}
+
+.footer-container-bottom {
+    max-width: 1400px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+/* --- Typography Hierarchy Specs --- */
+footer .footer-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.contact-info p.sub-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 4px;
+    margin-top: 12px;
+}
+
+.contact-info p.schedule,
+.contact-info p.email {
+    font-size: 14px;
+    margin: 0;
+    color: #333;
+}
+
+/* --- Nav & Utility Menu Component Resets --- */
+.menu-item-footer,
+.customer-service-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item-footer li,
+.customer-service-links li {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* --- Newsletter Opt-In Component Layout --- */
+.newsletter-container {
+    width: 100%;
+    max-width: 340px;
+}
+
+footer .email-optin .email-signup {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+footer input#newsletter {
+    height: 2.4rem;
+    flex: 1; /* Automatically expands to grab available layout spaces */
+    padding-left: 1rem;
+    border: 1px solid #858585;
+    border-right: none; /* Merges beautifully alongside the checkout sign up button */
+}
+
+button.action.subscribe.primary {
+    text-align: center;
+    height: 2.4rem;
+    padding: 0 1.2rem;
+    border-radius: 0; /* Creates an industrial flush edge alongside the text field input */
+    color: #fff;
+    background: #031111;
+    border: 1px solid #858585;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button.action.subscribe.primary:hover {
+    background: #112a2a;
+}
+
+/* --- Legal Consent Layout Components --- */
+.field.choice.footer_subscription_consent {
+    margin-top: 10px;
+}
+
+.control.consent-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.control.consent-notice input[type="checkbox"] {
+    margin-top: 3px;
+}
+
+.email-optin .footer_subscription_consent span {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #555;
+}
+
+/* --- Vector Icons & Social Platforms UI --- */
+.social-list {
+    display: flex;
+    padding: 0;
+    margin: 15px 0 0 0;
+    list-style-type: none;
+    gap: 12px;
+}
+
+a.social {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+a#facebook {
+    background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M31.9977 15.9988C31.9977 7.16233 24.8354 0 15.9988 0C7.16233 0 0 7.16233 0 15.9988C0 23.9845 5.85052 30.6033 13.4991 31.8028V20.6224H9.43743V15.9966H13.4991V12.4716C13.4991 8.46269 15.8865 6.24726 19.5422 6.24726C21.292 6.24726 23.1245 6.55916 23.1245 6.55916V10.497H21.1063C19.1179 10.497 18.4986 11.7308 18.4986 12.9945V15.9966H22.9364L22.2277 20.6224H18.5009V31.8028C26.1495 30.6033 32 23.9845 32 15.9988H31.9977Z' fill='%230E1111'/%3E%3C/svg%3E");
+}
+
+a#instagram {
+    background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z' fill='%230E1111'/%3E%3Cpath d='M20.9681 9.94727C20.3603 9.94727 19.8672 10.4404 19.8672 11.0482C19.8672 11.656 20.3603 12.1491 20.9681 12.1491C21.5759 12.1491 22.069 11.656 22.069 11.0482C22.069 10.4404 21.5759 9.94727 20.9681 9.94727Z' fill='white'/%3E%3Cpath d='M16.0763 11.3555C13.5282 11.3555 11.457 13.4289 11.457 15.9747C11.457 18.5206 13.5305 20.594 16.0763 20.594C18.6222 20.594 20.6956 18.5206 20.6956 15.9747C20.6956 13.4289 18.6222 11.3555 16.0763 11.3555ZM16.0763 18.9357C14.4433 18.9357 13.1176 17.6078 13.1176 15.977C13.1176 14.3463 14.4456 13.0183 16.0763 13.0183C17.7071 13.0183 19.035 14.3463 19.035 15.977C19.035 17.6078 17.7071 18.9357 16.0763 18.9357Z' fill='white'/%3E%3Cpath d='M19.7433 25.3572H12.2525C9.14467 25.3572 6.61719 22.8296 6.61719 19.7218V12.231C6.61719 9.12322 9.14467 6.5957 12.2525 6.5957H19.7433C22.8511 6.5957 25.3787 9.12322 25.3787 12.231V19.7218C25.3787 22.8296 22.8511 25.3572 19.7433 25.3572ZM12.2525 8.36176C10.1194 8.36176 8.38323 10.098 8.38323 12.231V19.7218C8.38323 21.8549 10.1194 23.5911 12.2525 23.5911H19.7433C21.8764 23.5911 23.6126 21.8549 23.6126 19.7218V12.231C23.6126 10.0957 21.8764 8.36176 19.7433 8.36176H12.2525Z' fill='white'/%3E%3C/svg%3E");
+}
+
+/* --- Brand Copyright Rules --- */
+.copyright-container span {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 0.5px;
+}
+
+
