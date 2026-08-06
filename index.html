@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Shoe Store using JS</title>
 </head>
-<body>
+<body id="site-body">
     <header class="main-header">
         <div class="top-header top-container">
             <div class="header-left">
@@ -102,20 +102,352 @@
     </div> 
 
     <main id="maincontent" class="main-page shop-layout">
-        <div class="column-main shop main-shop">
-                <aside class="shop-sidebar">
-                    <h3>Filters</h3>
-                    <p>Sidebar Controls</p>
-                </aside>
-                <!-- FIXED: Changed inner main to a div to prevent double-main tags error -->
-                <div id="product-grid" class="product-grid"></div>
+    <!-- Main content grid wrapper -->
+    <div class="column-main shop main-shop">
+            
+<aside class="shop-sidebar">
+    <h3>Filters</h3>
+    <div class="filter-options" id="narrow-by-list">
+        <div class="filter-option-wrapper">
+
+            <!-- 1. AVAILABILITY SECTION -->
+            <div class="filter-group">
+                <input type="checkbox" id="toggle-availability" class="accordion-toggle" checked>
+                
+                <label for="toggle-availability" class="filter-option-header filter-option-availability">
+                    <span class="filter-title">Availability</span>
+                    <span class="accordion-arrow"></span>
+                </label>
+                
+                <div class="filter-content filter-availability-options">
+                    <label class="switch">
+                        <input type="checkbox" id="switch-label">
+                        <span class="slider"></span>
+                    </label>
+                    <label for="switch-label" class="text-subdued">Show only available options</label>
+                </div>
             </div>
-    </main>
+
+            <!-- 2. GENDER SECTION (With Custom Checkboxes) -->
+            <div class="filter-group">
+                <input type="checkbox" id="toggle-gender" class="accordion-toggle" checked>
+                
+                <label for="toggle-gender" class="filter-option-header filter-option-gender">
+                    <span class="filter-title">Gender</span>
+                    <span class="accordion-arrow"></span>
+                </label>
+                
+                <div class="filter-content">
+                    <ol class="items gender-filter">
+                        <li class="item">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" name="gender" value="men">
+                                <span class="checkbox-box"></span>
+                                <span class="filter-label">Men</span>
+                                <span class="count">(2)</span>
+                            </label>
+                        </li>
+                        <li class="item">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" name="gender" value="women">
+                                <span class="checkbox-box"></span>
+                                <span class="filter-label">Women</span>
+                                <span class="count">(2)</span>
+                            </label>
+                        </li>
+                        <li class="item">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" name="gender" value="unisex">
+                                <span class="checkbox-box"></span>
+                                <span class="filter-label">Unisex</span>
+                                <span class="count">(2)</span>
+                            </label>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- 3. SIZE SECTION -->
+            <div class="filter-group">
+                <input type="checkbox" id="toggle-size" class="accordion-toggle" checked>
+                
+                <label for="toggle-size" class="filter-option-header filter-option-sizing">
+                    <span class="filter-title">Size</span>
+                    <span class="accordion-arrow"></span>
+                </label>
+                
+                <div class="filter-content size-filter-options">
+                    <ol class="filter-grid size-filter">
+                        <li class="item"><a href="Size5" title="Filter by Size: US 5">5</a></li>
+                        <li class="item"><a href="Size5.5" title="Filter by Size: US 5.5">5.5</a></li>
+                        <li class="item"><a href="Size6" title="Filter by Size: US 6">6</a></li>
+                        <li class="item"><a href="Size6.5" title="Filter by Size: US 6.5">6.5</a></li>
+                        <li class="item"><a href="Size7" title="Filter by Size: US 7">7</a></li>
+                        <li class="item"><a href="Size7.5" title="Filter by Size: US 7.5">7.5</a></li>
+                        <li class="item"><a href="Size8" title="Filter by Size: US 8">8</a></li>
+                        <li class="item"><a href="Size8.5" title="Filter by Size: US 8.5">8.5</a></li>
+                        <li class="item"><a href="Size9" title="Filter by Size: US 9">9</a></li>
+                        <li class="item"><a href="Size9.5" title="Filter by Size: US 9.5">9.5</a></li>
+                        <li class="item"><a href="Size10" title="Filter by Size: US 10">10</a></li>
+                        <li class="item"><a href="Size10.5" title="Filter by Size: US 10.5">10.5</a></li>
+                        <li class="item"><a href="Size11" title="Filter by Size: US 11">11</a></li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- 4. BRAND SECTION (With Custom Checkboxes) -->
+            <div class="filter-group">
+                <input type="checkbox" id="toggle-brand" class="accordion-toggle" checked>
+                
+                <label for="toggle-brand" class="filter-option-header filter-option-sizing">
+                    <span class="filter-title">Brand</span>
+                    <span class="accordion-arrow"></span>
+                </label>
+                
+                <div class="filter-content brand-filter-options">
+                    <ol class="items brand-filter">
+                        <li class="item">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" name="brand" value="nike">
+                                <span class="checkbox-box"></span>
+                                <span class="filter-label">Nike</span>
+                            </label>
+                        </li>
+                        <li class="item">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" name="brand" value="converse">
+                                <span class="checkbox-box"></span>
+                                <span class="filter-label">Converse</span>
+                            </label>
+                        </li>
+                        <li class="item">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" name="brand" value="newbalance">
+                                <span class="checkbox-box"></span>
+                                <span class="filter-label">New Balance</span>
+                            </label>
+                        </li>
+                        <li class="item">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" name="brand" value="salomon">
+                                <span class="checkbox-box"></span>
+                                <span class="filter-label">Salomon</span>
+                            </label>
+                        </li>
+                        <li class="item">
+                            <label class="custom-checkbox-container">
+                                <input type="checkbox" name="brand" value="vans">
+                                <span class="checkbox-box"></span>
+                                <span class="filter-label">Vans</span>
+                            </label>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- 5. COLOR FILTER SECTION (New!) -->
+            <div class="filter-group">
+                <input type="checkbox" id="toggle-color" class="accordion-toggle" checked>
+                
+                <label for="toggle-color" class="filter-option-header filter-option-sizing">
+                    <span class="filter-title">Color</span>
+                    <span class="accordion-arrow"></span>
+                </label>
+                
+                <div class="filter-content color-filter-options">
+                    <div class="color-swatch-grid">
+                        <label class="swatch-item">
+                            <input type="checkbox" name="color" value="blue">
+                            <span class="swatch-circle" style="background-color: #2196F3;"></span>
+                            <span class="swatch-name">Blue</span>
+                        </label>
+                        <label class="swatch-item">
+                            <input type="checkbox" name="color" value="maroon">
+                            <span class="swatch-circle" style="background-color: #800000;"></span>
+                            <span class="swatch-name">Maroon</span>
+                        </label>
+                        <label class="swatch-item">
+                            <input type="checkbox" name="color" value="red">
+                            <span class="swatch-circle" style="background-color: #f11a0a;"></span>
+                            <span class="swatch-name">Red</span>
+                        </label>
+                        <label class="swatch-item">
+                            <input type="checkbox" name="color" value="brown">
+                            <span class="swatch-circle" style="background-color: #795548;"></span>
+                            <span class="swatch-name">Brown</span>
+                        </label>
+                        <label class="swatch-item">
+                            <input type="checkbox" name="color" value="black">
+                            <span class="swatch-circle" style="background-color: #000000; border: 1px solid #ddd;"></span>
+                            <span class="swatch-name">Black</span>
+                        </label>
+                        <label class="swatch-item">
+                            <input type="checkbox" name="color" value="gray">
+                            <span class="swatch-circle" style="background-color: #9E9E9E;"></span>
+                            <span class="swatch-name">Gray</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+<!-- 6. PRICE SECTION (Dual Handle Container Setup) -->
+            <div class="filter-group">
+                <input type="checkbox" id="toggle-price" class="accordion-toggle" checked>
+                
+                <label for="toggle-price" class="filter-option-header filter-option-sizing">
+                    <span class="filter-title">Price</span>
+                    <span class="accordion-arrow"></span>
+                </label>
+                
+                <div class="filter-content price-filter-options">
+                    <div class="price-slider-container">
+                        <strong class="from">₱3,000</strong>
+                        <span>to</span>
+                        <strong class="to">₱15,000</strong>
+                    </div>
+                    <!-- Built for external range engines like jQuery UI Slider -->
+                    <div class="price-slider ui-slider" id="price-slider">
+                        <div class="ui-slider-range ui-widget-header" style="left:0%; width:100%"></div>
+                        <span class="ui-slider-handle ui-state-default" style="left:0%"></span>
+                        <span class="ui-slider-handle ui-state-default" style="left:100%"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Close .filter-option-wrapper -->
+    </div> <!-- Close .filter-options -->
+</aside> <!-- Close .shop-sidebar -->
+
+        <!-- 2. RIGHT CONTENT: PRODUCT LISTING SECTION -->
+        <div id="product-listing">
+            <div class="total-count-container">
+                <span class="total-count">Showing <strong>6</strong> Results</span>
+            </div>
+            <div class="toolbar-products">
+                <div class="toolbar-sorter sorter">
+                    <select id="sorter" data-role="sorter" class="sorter-options">
+                        <option value="position">Relevance</option>
+                        <option value="price_high_to_low">Price: High to Low</option>
+                        <option value="price_low_to_high">Price: Low to High</option>
+                    </select>
+                </div> 
+            </div>
+            
+            <!-- Put your 6 product card components right here inside this grid -->
+            <div id="product-grid" class="product-grid">
+                <!-- Example placeholder product card -->
+                <div class="product-item">Product Item Here</div>
+            </div>
+            </div>
+        </div>
+
+    </div> <!-- Close .main-shop -->
+</main> <!-- Close #maincontent -->
 
     <h1 class="page-title" id="page-title-heading">
         <span class="base" data-ui-id="page-title-wrapper">because<br>legends<br>never fade</span>
     </h1>
-yt
-    <script src="products.js"></script>
+
+<footer>
+    <div class="footer-container-top">
+        <!-- 1. CONTACT CONTAINER -->
+        <div class="contact-container">
+            <div class="contact-info">
+                <h4 class="footer-section-title">Contact Us</h4>
+                <div class="operation">
+                    <p class="sub-title">Operational Hours</p>
+                    <p class="schedule">Monday - Sunday, 9am - 8pm PHT</p>
+                    
+                    <p class="sub-title">Customer Service</p>
+                    <p class="email">Email: <a href="mailto:connect@footlocker.ph">connect@footlocker.ph</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. NAVIGATION LINKS CONTAINER -->
+        <div class="menu-container">
+            <div class="menu-info">
+                <h4 class="footer-section-title">Menu</h4>
+                <nav class="footer-nav" aria-label="Footer Menu">
+                    <ul class="nav-item-footer menu-item-footer">
+                        <li><a href="index.html" class="ui-menu-item-wrapper"><span>New Arrivals</span></a></li>
+                        <li><a href="index.html" class="ui-menu-item-wrapper"><span>Sale</span></a></li>
+                        <li><a href="#" class="ui-menu-item-wrapper"><span>WishList</span></a></li>
+                        <li><a href="cart.html" class="ui-menu-item-wrapper"><span>Cart</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 3. CUSTOMER SERVICE CONTAINER -->
+        <div class="customer-service-container">
+            <div class="customer-service-info">
+                <h4 class="footer-section-title">Customer Service</h4>
+                <ul class="customer-service-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4. NEWSLETTER & SOCIALS CONTAINER -->
+        <div class="newsletter-container">
+            <div class="email-optin">
+                <h4 class="footer-section-title">Join our Newsletter</h4>
+                <form class="form subscribe" method="post" id="newsletter-validate-detail">
+                    <!-- Hidden tokens can sit inside the element container safely -->
+                    <input type="hidden" name="form_key">
+                    
+                    <div class="field newsletter">
+                        <div class="control email-signup">
+                            <input name="email" type="email" id="newsletter" placeholder="Enter your email address" required autocomplete="email">
+                            <div class="action">
+                                <button class="action subscribe primary" title="Subscribe" type="submit">
+                                    <span>SIGN UP</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="field choice footer_subscription_consent">
+                        <div class="control consent-notice">
+                            <input type="checkbox" name="footer_subscription_consent" value="1" id="footer_subscription_consent" class="checkbox" required>
+                            <label for="footer_subscription_consent" class="label">
+                                <span>By clicking "Sign Up", I expect to receive email promotions from Footlocker.</span>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="social-media-links">
+                    <ul class="social-list">
+                        <li>
+                            <a id="facebook" class="social" href="https://facebook.com" target="_blank" rel="noopener" aria-label="Visit Facebook"></a>
+                        </li>
+                        <li>
+                            <a id="instagram" class="social" href="https://instagram.com" target="_blank" rel="noopener" aria-label="Visit Instagram"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM SECTION -->
+    <div class="footer-container-bottom">
+        <div class="logo-copyright">
+            <a href="index.html" class="logo-link">
+                <img src="assets/logo%20and%20icons/newLogo.webp" alt="JS Portfolio Logo" width="170">
+            </a>
+        </div>
+        <div class="copyright-container">
+            <span>2024 © FOOTLOCKER.PH. ALL RIGHTS RESERVED.</span>
+        </div>
+    </div>
+</footer>
+
+
+    <script src="products.js" defer></script>
 </body>
 </html>
