@@ -5,6 +5,8 @@ const products = [
     price: 3198.00,
     brand: "Vans",
     rating: 4.5,
+    gender: "unisex",
+    color: "blue",
     stock: 14,
     gallery: [
       { main: "assets/Shoes/shoes-blue1.webp", thumb: "assets/Shoes/shoes-blue%20icon1.webp" },
@@ -20,6 +22,8 @@ const products = [
     price: 11990.00,
     brand: "Salomon",
     rating: 3.9,
+    gender: "women",
+    color: "brown",
     stock: 5,
     gallery: [
       { main: "assets/Shoes/shoes-brown1.webp", thumb: "assets/Shoes/shoes-brown%20icon1.webp" }, // Fixed closing bracket here
@@ -35,6 +39,8 @@ const products = [
     price: 7795.00,
     brand: "New Balance",
     rating: 3.4,
+    gender: "women",
+    color: ["black", "maroon"],
     stock: 9,
     gallery: [
       { main: "assets/Shoes/shoes-maroon1.webp", thumb: "assets/Shoes/shoes-maroon%20icon1.webp" },
@@ -46,10 +52,12 @@ const products = [
   },
   {
     id: "jordan-j4-04",
-    name: "Air Jordan 4 Retro Men's Basketball Shoes",
+    name: "Air Jordan 4 Retro Kids Preschool Basketball Shoes",
     price: 12095.00,
     brand: "Nike",
     rating: 4.7,
+    gender: "men",
+    color: "red",
     stock: 3,
     gallery: [
       { main: "assets/Shoes/shoes-red1.webp", thumb: "assets/Shoes/shoes-red%20icon1.webp" },
@@ -61,10 +69,12 @@ const products = [
   },
   {
     id: "jordan-j6-retro",
-    name: "Air Jordan 4 Retro Mens Basketball Shoes",
+    name: "Air Jordan 6 Retro Mens Basketball Shoes",
     price: 10895.00,
     brand: "Nike",
+    color: "black",
     rating: 3.6,
+    gender: "men",
     stock: 5,
     gallery: [
       { main: "assets/Shoes/shoes-blackred1.webp", thumb: "assets/Shoes/shoes-blackred%20icon1.webp" },
@@ -80,6 +90,8 @@ const products = [
     price: 4595.00,
     brand: "Converse",
     rating: 4.3,
+    gender: "unisex",
+    color: "gray",
     stock: 12,
     gallery: [
       { main: "assets/Shoes/shoes-gray1.webp", thumb: "assets/Shoes/shoes-gray%20icon1.webp" },
