@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Product Details | Foot Locker</title>
+</head>
+<body id="site-body">
+
+    <!-- 1. HEADER (Keep this exactly identical to your index.html header) -->
+    <header class="main-header">
+        <!-- Paste your exact existing header here -->
+    </header>
+
+    <!-- 2. MAIN PRODUCT VIEW GRID -->
+    <main id="maincontent" class="main-page dynamic-product-layout" style="max-width:1200px; margin:40px auto; padding:0 20px;">
+        <div class="product-grid-container" style="display: flex; gap: 40px; flex-wrap: wrap;">
+            
+            <!-- Left Side: Interactive Gallery Column -->
+            <div class="product-gallery-column" style="flex: 1.2; min-width: 320px;">
+                <div class="main-image-wrapper" style="border: 1px solid #ddd; border-radius: 4px; overflow: hidden; margin-bottom: 15px;">
+                    <img id="js-main-image" src="" alt="Product view" style="width: 100%; display: block; object-fit: contain;">
+                </div>
+                <!-- Mini Thumbnail Grid Selector -->
+                <div class="thumbnail-row" id="js-thumbnail-container" style="display: flex; gap: 10px;">
+                    <!-- JavaScript will inject image previews here dynamically -->
+                </div>
+            </div>
+
+            <!-- Right Side: Purchasing Options & Content Column -->
+            <div class="product-info-column" style="flex: 1; min-width: 320px;">
+                <p id="js-product-brand" style="text-transform: uppercase; letter-spacing: 1px; color: #666; margin: 0; font-size: 14px;"></p>
+                <h1 id="js-product-name" style="margin: 5px 0 15px 0; font-size: 2rem;">Loading...</h1>
+                <p id="js-product-price" style="font-size: 1.5rem; font-weight: 600; color: #031111; margin-bottom: 20px;">$0.00</p>
+                <p id="js-product-desc" style="line-height: 1.6; color: #444; margin-bottom: 30px;"></p>
+
+                <!-- Interactive Size Selector Form Section -->
+                <div class="size-selector-section" style="margin-bottom: 30px;">
+                    <h4 style="margin-bottom: 10px;">Select Size:</h4>
+                    <div id="js-size-buttons-container" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <!-- JavaScript will inject available sizes here dynamically -->
+                    </div>
+                </div>
+
+                <button id="js-add-to-cart-btn" style="width: 100%; padding: 15px; background: #031111; color: white; border: none; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                    ADD TO CART
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Link your main execution logic script module -->
+    <script type="module" src="product-detail.js"></script>
+</body>
+</html>
