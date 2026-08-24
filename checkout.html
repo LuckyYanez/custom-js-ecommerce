@@ -96,36 +96,37 @@
             </div>
         </div>
     </header>
-<section id="main-section">
-    <div class="container" id="dynamic-detail-container">
-        <!-- JavaScript will inject the complete layout here dynamically -->
-        <div style="padding: 100px; text-align: center; color: #666;">Loading product details...</div>
-    </div>
+
+    <body>
+<div class="checkout-layout-wrapper" style="display: grid; grid-template-columns: 1fr; gap: 30px; max-width: 600px; margin: 40px auto; padding: 0 20px;">
     
-</section>
-<!-- THE GLOBAL SLIDE-PUSH CART DRAWER -->
-<div id="side-cart-drawer" class="side-cart-drawer">
-    <div class="cart-drawer-header">
-        <h3>Shopping Cart</h3>
-        <button id="cart-drawer-close" class="cart-drawer-close-btn" aria-label="Close Cart">&times;</button>
-    </div>
-    
-    <!-- Dynamic Cart List Content Area Wrapper -->
-    <div id="cart-items-container" class="cart-items-content">
-        <!-- Rendered items will append here natively -->
+    <!-- Item Loop Wrapper Injection Target -->
+    <div id="checkout-items-list">
+        <!-- JS dynamically prints item loop objects inside here -->
     </div>
 
-    <div class="cart-drawer-footer">
-        <div class="cart-total-row">
-            <span>Subtotal:</span>
-            <span id="cart-subtotal-display">₱0.00</span>
+    <!-- Pricing Summary Manifest Table Card -->
+    <div class="checkout-billing-manifest" style="background: #fdfdfd; padding: 20px; border-radius: 8px; border: 1px solid #eaeaea;">
+        <h3 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Order Summary</h3>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #555;">
+            <span>Subtotal</span>
+            <span id="checkout-subtotal">₱0.00</span>
         </div>
-        <a href="checkout.html" class="checkout-action-btn">
-    PROCEED TO CHECKOUT
-</a>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; color: #555;">
+            <span>Shipping</span>
+            <!-- Hooks dynamically into the structural rules created above -->
+            <span id="checkout-shipping">₱0.00</span>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.15rem; border-top: 2px dashed #eee; padding-top: 15px; color: #111;">
+            <span>Grand Total</span>
+            <span id="checkout-grand-total">₱0.00</span>
+        </div>
     </div>
 </div>
-
+</body>
 <footer>
     <div class="footer-container-top">
         <!-- 1. CONTACT CONTAINER -->
@@ -228,9 +229,7 @@
 
 
     <!-- Link your main execution logic script module -->
-     <script src="js/products.js"></script>
-     <script src="cart.js" defer></script>
     <script src="product-detail.js"></script>
-    
+    <script src="cart.js" defer></script>
 </body>
 </html>

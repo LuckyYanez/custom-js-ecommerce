@@ -138,7 +138,9 @@ input#search-query {
     padding-right: 10rem;
 }
 
-.nav-link::before {
+.nav-link.icon-wishlist::before,
+.nav-link.cart-trigger-anchor::before,
+.nav-link.custom-account-link::before {
     content: '';
     display: inline-block; 
     width: 24px;
@@ -147,25 +149,19 @@ input#search-query {
     background-repeat: no-repeat;
     background-position: center;
     vertical-align: middle;
-    margin-right: 8px;
 }
 
 
-a.custom-account-link::before {
+.nav-link.custom-account-link::before {
     background-image: url('assets/logo%20and%20icons/accountNew.svg');
 }
 
-a.icon-wishlist::before {
+.nav-link.icon-wishlist::before {
     background-image: url('assets/logo%20and%20icons/wishlistNew.svg');
 }
 
-a.showcart::before {
+.nav-link.cart-trigger-anchor::before {
     background-image: url('assets/logo%20and%20icons/cartNew.svg');
-      width: 24px;
-  height: 24px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
 }
 
 .responsive-main-header {
@@ -237,7 +233,15 @@ display:none;
     text-decoration:none;
 }
 
+/* to be deleted soon */
 a.ui-menu-item-wrapper {
+    text-decoration: none;
+    font-family: inherit;
+    color: black;
+    font-weight: 600;
+}
+
+a.cart-trigger-anchor, a.ui-menu-item-wrapper {
     text-decoration: none;
     font-family: inherit;
     color: black;
@@ -325,14 +329,15 @@ span.base {
     margin: 0 auto;
 }
 
-/* Responsive grid for product cards */
-.product-grid {
+#product-grid {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0; 
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(calc(33.333% - 16px), 1fr));
     gap: 24px;
 }
 
-/* Individual Card Styling */
 .product-card {
     background: #fff;
     border: 1px solid #e0e0e0;
@@ -597,6 +602,16 @@ ol.items.gender-filter {
     box-sizing: border-box;
 }
 
+.size-filter .item.active {
+    background-color: #000000;
+    border-color: #000000;
+}
+
+.size-filter .item.active a {
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
 .filter-grid {
     list-style: none;
     padding: 0;
@@ -714,7 +729,16 @@ ol.items.gender-filter {
 }
 
 .shop-sidebar {
-    flex-shrink: 0;
+    width: 280px; 
+    flex-shrink: 0; 
+    flex-grow: 0; 
+    box-sizing: border-box;
+    min-height:113vh;
+}
+
+.shop-container-wrapper { 
+    display: flex;
+    align-items: flex-start;
 }
 
 #product-listing {
@@ -852,6 +876,32 @@ ol.items.brand-filter {
     display: inline-block;
 }
 
+/* Organizes the product card size badges cleanly when some are hidden */
+.product-card-sizes-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 8px 0;
+    justify-content: flex-start;
+}
+
+.size-tag {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border: 1px solid #e2e2e2;
+    border-radius: 3px;
+    background: #ffffff;
+    user-select: none;
+}
+
+.size-tag.size-unavailable {
+    background: #f5f5f5;
+    color: #cccccc;
+    text-decoration: line-through;
+    border-color: #eaeaea;
+}
+
+
 /* Active Stock Variant Configuration */
 .size-available {
     background-color: #f4f4f4;
@@ -879,7 +929,7 @@ ol.items.brand-filter {
     font-size: 0.95rem;
     font-weight: 600;
     margin: 1px 0 4px 0;
-    color: #111;
+    color: #2f2323;
 }
 
 div#product-grid .product-item {
@@ -1068,5 +1118,533 @@ a#instagram {
     color: #666;
     letter-spacing: 0.5px;
 }
+
+div#dynamic-detail-container {
+    display: flex;
+    flex-direction:column;
+    margin: 0 auto;
+    max-width: 1400px;
+}
+
+ PRODUCT PAGE 
+product-gallery-navigation {
+    display: flex;
+    flex-direction: column;
+}
+
+product-gallery.product-gallery {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumbs {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+.breadcrumb-link {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+}
+.breadcrumb-link:hover {
+    text-decoration: underline;
+}
+.breadcrumb-separator {
+    margin: 0 8px;
+    color: #ccc;
+}
+.breadcrumb-current {
+    color: #999;
+    text-transform: uppercase;
+}
+
+.product-detail-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    padding: 30px;
+    align-items: end; 
+    position: relative;
+    overflow: visible;
+    min-width: 0;
+    width: 100%;   
+    box-sizing: border-box;
+}
+
+.gallery-side-panel {
+    display: none;
+}
+
+.main-image-viewport-panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+}
+
+.main-image-viewport-panel img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 960 / 1200;
+    object-fit: contain;
+    display: block;
+}
+
+/* Text Element Spacing Hierarchies */
+.text-badge {
+    background: #e74c3c;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom:10px;
+}
+.detail-brand-tag {
+    color: #666;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    margin: 10px 0 2px 0;
+}
+.product-info-panel .product-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 5px;
+}
+
+.product-info-panel {
+    position: -webkit-sticky;
+    position: sticky;
+    height: auto; 
+    top:auto;
+    bottom:40px;
+    align-self: end;  
+    overflow: visible !important; 
+    z-index: 10;
+    max-width:100%;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+body#product-detail-page {
+    overflow: visible !important;
+}
+
+.product-slogan {
+    font-style: italic;
+    font-weight: 400;
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.price-container {
+    margin-bottom: 15px;
+}
+.price-container .sale-price {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #333;
+}
+.price-container .sale-price.discounted {
+    color: #e74c3c;
+}
+.price-container .regular-price {
+    text-decoration: line-through;
+    color: #999;
+    margin-left: 10px;
+    font-size: 1.2rem;
+}
+
+.product-description {
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* Compact Size Grid Matrix Rules */
+.detail-size-selector-container {
+    margin: 25px 0;
+}
+.size-selector-label {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    color: #332b2b;
+}
+
+.size-buttons-grid {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top:15px;
+}
+.detail-size-btn {
+    padding: 10px 15px;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.detail-size-btn.available-size {
+    border: 1px solid #333;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+}
+.detail-size-btn.available-size:hover {
+    background: #f5f5f5;
+}
+
+.detail-size-btn.available-size.selected-size {
+    background: #333;
+    color: #fff;
+}
+.detail-size-btn.unavailable-size {
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+    color: #ccc;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+.qty-label {
+    font-weight: bold;
+}
+.qty-stepper-box {
+    display: flex;
+    border: 1px solid #333;
+    width: fit-content;
+    align-items: center;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.qty-btn {
+    padding: 8px 16px;
+    background: #fff;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+.qty-btn:hover {
+    background: #f5f5f5;
+}
+#qty-input-value {
+    width: 50px;
+    text-align: center;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+}
+/* Hide built-in styling spinners for numerical forms */
+#qty-input-value::-webkit-outer-spin-button,
+#qty-input-value::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Button UI Core actions */
+.action-buttons-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+.btn-primary, .btn-secondary {
+    flex: 1;
+    padding: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.btn-secondary {
+    background: #fff;
+    color: #333;
+}
+.btn-secondary:hover {
+    background: #f5f5f5;
+}
+.btn-primary {
+    background: #2f2323;
+    color: #fff;
+}
+.btn-primary:hover {
+    background: #332b2b;
+    border-color: #332b2b;
+}
+
+/* Purchase Control Mechanics Layout Box */
+.purchase-controls-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 25px 0;
+    background: #fafafa;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+.quantity-selector-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Technical Specification List Alignment Rules */
+.specs-heading {
+    font-weight: bold;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #332b2b;
+}
+.product-specifications-list {
+    padding-left: 0px;
+    line-height: 1.8;
+    color: #444;
+}
+.product-specifications-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #f0f0f0;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between; /* Spreads label left and description right like a table */
+}
+
+.product-specifications-list li:last-child{
+border-bottom: 1px solid #eee;
+}
+
+.product-specifications-list li strong {
+    color: #333;
+}
+
+/* Dual Range Slider Container Layout */
+.dual-range-slider-wrapper {
+    position: relative;
+    height: 30px;
+    margin-top: 10px;
+}
+
+/* Base styling for both overlaying range inputs */
+.dual-range-slider-wrapper input[type="range"] {
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    z-index: 2;
+    margin: 0;
+    top: 0;
+    left: 0;
+}
+
+/* Reactivate pointer events strictly for the slider knobs so they remain draggable */
+.dual-range-slider-wrapper input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #000000;
+    cursor: pointer;
+    pointer-events: auto;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dual-range-slider-wrapper input[type="range"]::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #000000;
+    cursor: pointer;
+    pointer-events: auto;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Background track layer */
+.dual-range-slider-wrapper .slider-track {
+    position: absolute;
+    top: 6px; /* Centers the track nicely behind the thumbs */
+    height: 5px;
+    width: 100%;
+    background: #dddddd;
+    border-radius: 3px;
+    z-index: 1;
+}
+
+/* Layout rules for the bottom price numeric input fields area */
+.price-numeric-fields-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.input-bound-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 6px 8px;
+    flex: 1;
+    background: #ffffff;
+}
+
+.currency-symbol {
+    color: #666666;
+    font-size: 0.85rem;
+    margin-right: 4px;
+    user-select: none;
+}
+
+.input-bound-box input[type="number"] {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.85rem;
+    padding: 0;
+    margin: 0;
+    color: #000000;
+}
+
+.range-separator {
+    color: #888888;
+    font-size: 0.8rem;
+    text-transform: lowercase;
+}
+
+/* ==========================================================================
+   SLIDE-PUSH DRAWER CART SYSTEM ARCHITECTURE
+   ========================================================================== */
+
+/* 1. Prepare global master frameworks for push-displacement operations */
+body, #page-container, main, .main-shop {
+    transition: margin-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* Active body trigger state modifier -> squeezes the desktop frame content left */
+body.side-cart-active #page-container,
+body.side-cart-active main {
+    margin-left: 350px;
+}
+
+/* 2. Base Drawer Structural Specs */
+.side-cart-drawer {
+    position: fixed;
+    top: 0;
+    right:0px;
+    left: auto !important;
+    width: 400px;
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: -2px 0 15px rgba(0, 0, 0, 0.15);
+    z-index: 99999; /* Higher than any navigational overlay bars */
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%); /* Hidden offscreen natively by default */
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-sizing: border-box;
+}
+
+/* Active slider visibility modifier */
+body.side-cart-active .side-cart-drawer {
+   transform:translateX(0);
+}
+
+/* Background Overlay Dimmer */
+body.side-cart-active::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+}
+
+/* 3. Internal Element Flex Containers */
+.cart-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.cart-drawer-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    cursor: pointer;
+    color: #333;
+    padding: 0;
+    line-height: 1;
+}
+
+.cart-items-content {
+    flex-grow: 1;
+    overflow-y: auto; /* Independent inner scrolling mechanics */
+    padding: 20px;
+}
+
+.cart-drawer-footer {
+    padding: 20px;
+    border-top: 1px solid #eaeaea;
+    background-color: #fafafa;
+}
+
+.cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.checkout-action-btn {
+    width: 100%;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    text-transform: uppercase;
+    display:block;
+    text-align:center;
+    text-decoration:none;
+}
+
+/* 4. Responsive Mobile Overrides */
+@media (max-width: 767px) {
+    .side-cart-drawer {
+        width: 100%; /* Spans full screen width on smart viewports */
+    }
+    body.side-cart-active #page-container,
+    body.side-cart-active main {
+        margin-left: 0px; /* Disable the layout shifting wrapper stretch rules for mobile safety */
+    }
+}
+
+
+
+
+
+
 
 
