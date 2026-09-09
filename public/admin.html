@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Management - Admin Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f6f9; margin: 0; padding: 40px; }
+        .admin-container { max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        h1 { margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 12px; font-size: 1.6rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; font-weight: 600; color: #333; }
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+        .status-processing { background: #ffeaa7; color: #d63031; }
+        .status-shipped { background: #81ecec; color: #0984e3; }
+        .btn-ship { background: #000; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
+        .btn-ship:hover { background: #333; }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <h1>🔔 Order Management Fulfilment Center</h1>
+    <p>Review active PayPal transaction manifests, check delivery locations, and update processing statuses.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Destination</th>
+                <th>Grand Total</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <!-- JavaScript will automatically fetch rows from your database and print them here -->
+        <tbody id="admin-orders-tbody">
+            <tr>
+                <td colspan="6" style="text-align: center; color: #888;">Connecting to Node.js server pipelines...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

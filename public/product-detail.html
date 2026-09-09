@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Product Details | Foot Locker</title>
+</head>
+<body id ="product-detail-page">
+    <header class="main-header">
+        <div class="top-header top-container">
+            <div class="header-left">
+                <button class="menu-toggle" aria-label="Toggle Navigation">
+                    <span></span>
+                </button>
+                <a class="logo" href="/">
+                    <img src="assets/logo%20and%20icons/newLogo.webp" alt="JS Portfolio Logo" width="170">
+                </a>
+            </div>
+            
+            <div class="header-search">
+                <form class="search-form" id="store-search-form" method="get">
+                    <div class="search-input-wrapper">
+                        <input type="text" name="q" id="search-query" placeholder="Search product..." autocomplete="off" class="search-input">
+                        <button type="submit" title="Search" class="search-btn" aria-label="Search">
+                            <img src="assets/logo%20and%20icons/search.png" alt="Search" class="search-icon">
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="responsive-main-header">
+                <div class="header-right">
+                    <div class="main-header-right">
+                        <a href="/account" class="nav-link custom-account-link">Account</a>
+                    </div>
+                    <div class="h-search h-panel">
+                        <a href="/wishlist" class="nav-link icon-wishlist">Wishlist</a>
+                        <div class="block block-search"></div>
+                    </div>
+                    <div data-block="mini-cart" class="minicart-wrapper">
+                        <a href="#" class="nav-link cart-trigger-anchor">
+                            Cart<span class="cart-counter">0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- FIXED: Removed the two rogue duplicate closing divs from here -->
+
+        <div class="announcement-container banner">
+            <img class="annoucement-icon" width="20" height="20" src="assets/logo%20and%20icons/discount-tag.png">
+            <p>Get 20% off your first purchase on Foot Locker. Use code WELCOME20 🎉</p>
+            <a href="first-purchase-discount" target="_blank" class="announcements__cta-btn announcement btn">Get Started</a>
+        </div>
+
+        <div class="bottom-container bottom-header">
+            <div class="header-menu bottom-navigation">
+                <nav class="desktop-nav" role="menu" id="desktopMenu">
+                    <!-- FIXED: Changed wrapper to <ul> and changed duplicate IDs to classes -->
+                    <ul class="nav-item menu-item">
+                        <li class="ui-menu-item new-arrival-item">
+                            <a href="https://New-arrivals" class="ui-menu-item-wrapper">
+                                <span>New Arrivals</span>
+                            </a> 
+                        </li>
+                        <li class="ui-menu-item sale-item">
+                            <a href="https://Sale" class="ui-menu-item-wrapper">
+                                <span>Sale</span>
+                            </a> 
+                        </li>
+                        <li class="ui-menu-item wishlist-item">
+                            <a href="https://Wishlist" class="ui-menu-item-wrapper">
+                                <span>WishList</span>
+                            </a> 
+                        </li>
+                        <li class="ui-menu-item cart-item">
+                            <a href="#" class="cart-trigger-anchor">
+                                <span>Cart</span>
+                            </a> 
+                        </li>
+                    </ul>
+                </nav>
+                <nav class="mobile-nav" id="mobileMenu">
+                    <div class="drawer-header">
+                        <h3>Menu</h3>
+                        <button class="menu-close" id="menuClose" aria-label="Close Navigation">&times;</button>
+                    </div>
+                    <ul class="menu-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/shop">Shop</a></li>
+                        <li><a href="/categories">Categories</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="menu-overlay" id="menuOverlay"></div>
+            </div>
+        </div>
+    </header>
+<section id="main-section">
+    <div class="container" id="dynamic-detail-container">
+        <!-- JavaScript will inject the complete layout here dynamically -->
+        <div style="padding: 100px; text-align: center; color: #666;">Loading product details...</div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-container-top">
+        <!-- 1. CONTACT CONTAINER -->
+        <div class="contact-container">
+            <div class="contact-info">
+                <h4 class="footer-section-title">Contact Us</h4>
+                <div class="operation">
+                    <p class="sub-title">Operational Hours</p>
+                    <p class="schedule">Monday - Sunday, 9am - 8pm PHT</p>
+                    
+                    <p class="sub-title">Customer Service</p>
+                    <p class="email">Email: <a href="mailto:connect@footlocker.ph">connect@footlocker.ph</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. NAVIGATION LINKS CONTAINER -->
+        <div class="menu-container">
+            <div class="menu-info">
+                <h4 class="footer-section-title">Menu</h4>
+                <nav class="footer-nav" aria-label="Footer Menu">
+                    <ul class="nav-item-footer menu-item-footer">
+                        <li><a href="index.html" class="ui-menu-item-wrapper"><span>New Arrivals</span></a></li>
+                        <li><a href="index.html" class="ui-menu-item-wrapper"><span>Sale</span></a></li>
+                        <li><a href="index.html" class="ui-menu-item-wrapper"><span>WishList</span></a></li>
+                        <li><a href="#" class="cart-trigger-anchor"><span>Cart</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 3. CUSTOMER SERVICE CONTAINER -->
+        <div class="customer-service-container">
+            <div class="customer-service-info">
+                <h4 class="footer-section-title">Customer Service</h4>
+                <ul class="customer-service-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4. NEWSLETTER & SOCIALS CONTAINER -->
+        <div class="newsletter-container">
+            <div class="email-optin">
+                <h4 class="footer-section-title">Join our Newsletter</h4>
+                <form class="form subscribe" method="post" id="newsletter-validate-detail">
+                    <!-- Hidden tokens can sit inside the element container safely -->
+                    <input type="hidden" name="form_key">
+                    
+                    <div class="field newsletter">
+                        <div class="control email-signup">
+                            <input name="email" type="email" id="newsletter" placeholder="Enter your email address" required autocomplete="email">
+                            <div class="action">
+                                <button class="action subscribe primary" title="Subscribe" type="submit">
+                                    <span>SIGN UP</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="field choice footer_subscription_consent">
+                        <div class="control consent-notice">
+                            <input type="checkbox" name="footer_subscription_consent" value="1" id="footer_subscription_consent" class="checkbox" required>
+                            <label for="footer_subscription_consent" class="label">
+                                <span>By clicking "Sign Up", I expect to receive email promotions from Footlocker.</span>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="social-media-links">
+                    <ul class="social-list">
+                        <li>
+                            <a id="facebook" class="social" href="https://facebook.com" target="_blank" rel="noopener" aria-label="Visit Facebook"></a>
+                        </li>
+                        <li>
+                            <a id="instagram" class="social" href="https://instagram.com" target="_blank" rel="noopener" aria-label="Visit Instagram"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM SECTION -->
+    <div class="footer-container-bottom">
+        <div class="logo-copyright">
+            <a href="index.html" class="logo-link">
+                <img src="assets/logo%20and%20icons/newLogo.webp" alt="JS Portfolio Logo" width="170">
+            </a>
+        </div>
+        <div class="copyright-container">
+            <span>2024 © FOOTLOCKER.PH. ALL RIGHTS RESERVED.</span>
+        </div>
+    </div>
+</footer>
+
+
+<script src="js/products.js"></script>
+<script src="payment_utils.js"></script>
+<script src="payments.js"></script>
+<script src="cart.js"></script> 
+<script src="product-detail.js"></script>
+    
+</body>
+</html>
