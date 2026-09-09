@@ -1,0 +1,19 @@
+{
+  "name": "footlocker-portfolio-integration",
+  "version": "1.0.0",
+  "description": "PayPal Complete Payments Portfolio Demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.23.0",
+    "uuid": "^14.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
