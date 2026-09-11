@@ -12,6 +12,7 @@ function getFreshCartState() {
 }
 
 // 📦 ENGINE ACTION: Pulls the structural template into the active screen row thread
+// 📦 ENGINE ACTION: Pulls the structural template into the active screen row thread
 async function loadAndInjectSharedCartMarkup() {
     try {
         const response = await fetch('/cart.html');
@@ -37,10 +38,55 @@ async function loadAndInjectSharedCartMarkup() {
         if (document.body.classList.contains('side-cart-active')) {
             renderCartDrawerContents();
         }
+
+        // 🟢 PAYPAL SMART BUTTON INTEGRATION PLACEMENT
+        // This makes sure the target container div exists before trying to render into it!
+        if (window.paypal && document.getElementById('paypal-button-container')) {
+            window.paypal.Buttons({
+                createOrder: async function() {
+                    try {
+                        const response = await fetch('https://onrender.com', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        const orderData = await response.json();
+                        if (orderData.id) {
+                            return orderData.id;
+                        } else {
+                            throw new Error('Failed to initialize sandbox order.');
+                        }
+                    } catch (err) {
+                        console.error("Order Creation Logic Error:", err);
+                        alert(`Checkout failed: ${err.message}`);
+                    }
+                },
+                onApprove: async function(data, actions) {
+                    try {
+                        const response = await fetch(`https://onrender.com/${data.orderID}/capture`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        const orderData = await response.json();
+                        if (orderData.status === "COMPLETED") {
+                            alert("🎉 Success: Order completed! Thank you for your purchase.");
+                            localStorage.removeItem('user_shopping_cart'); // Clears your specific shopping cart storage key
+                            window.location.href = "index.html"; 
+                        } else {
+                            throw new Error("Transaction state flagged incomplete.");
+                        }
+                    } catch (err) {
+                        console.error("Capture Processing Error:", err);
+                        alert(`Payment tracking error: ${err.message}`);
+                    }
+                }
+            }).render('#paypal-button-container');
+        }
+
     } catch (error) {
         console.error("Layout engine error mounting centralized cart template snippet:", error);
     }
 }
+
 
 // 1. OPEN / CLOSE SLIDE MECHANICS
 function toggleCartDrawer(openState) {
