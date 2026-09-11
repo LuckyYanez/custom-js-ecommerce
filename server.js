@@ -1,20 +1,25 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); 
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Update these variables with your actual dashboard credentials for validation testing
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || "YOUR_PAYPAL_SANDBOX_CLIENT_ID";
-const PAYPAL_SECRET = process.env.PAYPAL_SECRET || "YOUR_PAYPAL_SANDBOX_SECRET_KEY";
-const PAYPAL_API = "https://paypal.com";
-
 app.use(cors());
 app.use(express.json());
 
-// Instruct Node to securely deliver your front-end pages
-app.use(express.static('public'));
+// 🟢 FIXED: Tell Express that your assets and HTML sit directly in the root folder
+app.use(express.static(__dirname));
+
+// Fallback homepage route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// ... Keep your PayPal /api/orders endpoints down here ...
+
+app.listen(PORT, () => console.log(`🚀 Success: Server listening on port ${PORT}`));
 
 // Helper endpoint function to generate an internal OAuth2 verification key
 async function generatePayPalAccessToken() {

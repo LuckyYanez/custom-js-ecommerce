@@ -1,4 +1,4 @@
-const products = [
+const productCatalog = [
   {
     id: "vans-os-01",
     name: "Vans Old Skool sneakers",
@@ -344,7 +344,7 @@ const sizeLinks = document.querySelectorAll('.size-filter .item a');
 // 2. MASTER FILTER EXECUTION PIPELINE
 // ==========================================================================
 function applyActiveSidebarFilters() {
-    const filteredProducts = products.filter(product => {
+    const filteredProducts = productCatalog.filter(product => {
         
         // A. Availability Check
         if (filterState.onlyAvailable) {
@@ -538,4 +538,4 @@ if (sortSelectDropdown) {
     });
 }
 
-renderProductCards(products);
+renderProductCards(productCatalog);
