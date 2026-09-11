@@ -92,4 +92,4 @@ app.post('/api/orders/:orderId/capture', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => console.log(`🚀 Success: Server listening directly on live local port ${PORT}`));
+
