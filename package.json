@@ -1,5 +1,5 @@
 {
-  "name": "footlocker-portfolio-integration",
+  "name": "portfolio-with-paypal-integration",
   "version": "1.0.0",
   "description": "PayPal Complete Payments Portfolio Demo",
   "main": "server.js",
