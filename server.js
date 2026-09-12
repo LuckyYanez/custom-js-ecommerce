@@ -7,8 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // 🔐 ENV VALUES: Fallback strings protect from crash if your cloud configuration is sleeping
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID || "AYSF7qwzaeCE-aw56_3hRv8-NS1EfWMdIID2mU2hu6Q2DI0oS_F9YmdkOblf6vcqannNrsNKxBukd9m7";
-const PAYPAL_SECRET = process.env.PAYPAL_SECRET || "EEKyo8D6sD94WA4AXRs1LvGOS2uZBfRkTeqAkcWjozKgg8TrliNZoixA6nnsg71ygEiR4m1JeoVmG_9v";
+const PAYPAL_CLIENT_ID = "AYSF7qwzaeCE-aw56_3hRv8-NS1EfWMdIID2mU2hu6Q2DI0oS_F9YmdkOblf6vcqannNrsNKxBukd9m7";
+const PAYPAL_SECRET = "EEKyo8D6sD94WA4AXRs1LvGOS2uZBfRkTeqAkcWjozKgg8TrliNZoixA6nnsg71ygEiR4m1JeoVmG_9v";
 const PAYPAL_API = "https://api-m.sandbox.paypal.com"; 
 
 app.use(cors());
