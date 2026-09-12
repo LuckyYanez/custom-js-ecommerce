@@ -45,7 +45,7 @@ async function loadAndInjectSharedCartMarkup() {
             window.paypal.Buttons({
                 createOrder: async function() {
                     try {
-                        const response = await fetch('https://onrender.com', {
+                        const response = await fetch('https://render.com', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' }
                         });
@@ -62,7 +62,7 @@ async function loadAndInjectSharedCartMarkup() {
                 },
                 onApprove: async function(data, actions) {
                     try {
-                        const response = await fetch(`https://onrender.com/${data.orderID}/capture`, {
+                        const response = await fetch(`https://render.com/${data.orderID}/capture`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' }
                         });
