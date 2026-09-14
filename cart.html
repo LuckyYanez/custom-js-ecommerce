@@ -12,7 +12,7 @@
 
     <!-- Drawer Footer, Totals, and Checkout Triggers -->
     <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 1.1rem; font-weight: bold;">
+        <div style="display: flex; justify-content: space-between; margin-bottom:20px; padding:0 20px; font-size: 1.1rem; font-weight: bold;">
             <span>Subtotal:</span>
             <span id="cart-subtotal-display">₱0.00</span>
         </div>
@@ -20,13 +20,15 @@
         <!-- 🔥 Official PayPal Iframe Mounting Spot -->
         <!-- Kept completely outside the line-items loop so updates won't crash the frames! -->
         <div id="digital-wallet-buttons-container" style="margin-bottom: 15px;">
-            <h4 style="margin: 0 0 10px 0; font-size: 0.85rem; color: #555; text-transform: uppercase; letter-spacing: 0.5px;">Express Checkout</h4>
+            <h4 style="display:flex; align-items:center; margin:15px 5px 0 0; padding: 0 20px; font-size:0.9rem; position:relative;">Express Checkout</h4>
             <div id="paypal-express-cart-mount-point"></div>
             <div id="paypal-button-container" style="margin-top: 15px; padding: 0 20px;"></div>
+            <h4 style="display:flex; align-items:center; margin:15px 5px 0 0; padding: 0 20px; font-size:0.9rem; position:relative;">Or</h4>
         </div>
 
         <a href="/checkout.html" style="display: block; width: 100%; padding: 14px; background: #000; color: #fff; text-align: center; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 0.95rem; box-sizing: border-box;">
             PROCEED TO CHECKOUT
         </a>
+        <div style="margin-top:3px; font-size:0.6rem; position:relative; color: #2424a5; font-family: 'MonaSans', Arial, sans-serif;">🛈 Apply coupons and save account info</div>
     </div>
 </div>
