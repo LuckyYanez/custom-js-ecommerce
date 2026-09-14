@@ -43,42 +43,52 @@ async function loadAndInjectSharedCartMarkup() {
         // This makes sure the target container div exists before trying to render into it!
         if (window.paypal && document.getElementById('paypal-button-container')) {
             window.paypal.Buttons({
-                createOrder: async function() {
-                    try {
-                        const response = await fetch('/api/orders', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' }
-                        });
-                        const orderData = await response.json();
-                        if (orderData.id) {
-                            return orderData.id;
-                        } else {
-                            throw new Error('Failed to initialize sandbox order.');
-                        }
-                    } catch (err) {
-                        console.error("Order Creation Logic Error:", err);
-                        alert(`Checkout failed: ${err.message}`);
-                    }
-                },
-                onApprove: async function(data, actions) {
-                    try {
-                        const response = await fetch(`/api/orders/${data.orderID}/capture`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' }
-                        });
-                        const orderData = await response.json();
-                        if (orderData.status === "COMPLETED") {
-                            alert("🎉 Success: Order completed! Thank you for your purchase.");
-                            localStorage.removeItem('user_shopping_cart'); // Clears your specific shopping cart storage key
-                            window.location.href = "index.html"; 
-                        } else {
-                            throw new Error("Transaction state flagged incomplete.");
-                        }
-                    } catch (err) {
-                        console.error("Capture Processing Error:", err);
-                        alert(`Payment tracking error: ${err.message}`);
-                    }
-                }
+                        style: {
+            layout: 'vertical',
+            color:  'gold',
+            shape:  'rect',       // Keeps the button rectangular
+            borderRadius: 30,     // ⚡ Sets the corner rounding (Max allowed by PayPal is 30)
+            tagline: false
+        },
+
+        // 🛒 A. TRIGGERED WHEN CUSTOMER CLICKS PAYPAL BUTTON
+        createOrder: async function() {
+            // ... your existing createOrder fetch code ...
+        },
+
+        // 💳 B. TRIGGERED WHEN CUSTOMER APPROVES PAYMENT
+        onApprove: async function(data, actions) {
+            // ... your existing onApprove fetch code ...
+        },
+    createOrder: async function() {
+    try {
+        // 📦 Grab the current items from your localStorage cache
+        const currentCart = JSON.parse(localStorage.getItem('user_shopping_cart')) || [];
+        
+        if (currentCart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            // 🟢 FIXED: Send the cart items to the server securely as a JSON string
+            body: JSON.stringify({ cartItems: currentCart })
+        });
+        
+        const orderData = await response.json();
+        
+        if (orderData.id) {
+            return orderData.id;
+        } else {
+            throw new Error('Failed to initialize sandbox order.');
+        }
+    } catch (err) {
+        console.error("Order Creation Logic Error:", err);
+        alert(`Checkout failed: ${err.message}`);
+    }
+}               
             }).render('#paypal-button-container');
         }
 

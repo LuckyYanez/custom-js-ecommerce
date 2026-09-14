@@ -1542,21 +1542,17 @@ body.side-cart-active main {
 }
 
 /* 2. Base Drawer Structural Specs */
-.side-cart-drawer {
+#side-cart-drawer {
     position: fixed;
     top: 0;
-    right:0px;
-    left: auto !important;
+    right: -400px; /* Hidden offscreen by default */
     width: 400px;
-    height: 100%;
-    background-color: #ffffff;
-    box-shadow: -2px 0 15px rgba(0, 0, 0, 0.15);
-    z-index: 99999; /* Higher than any navigational overlay bars */
-    display: flex;
-    flex-direction: column;
-    transform: translateX(100%); /* Hidden offscreen natively by default */
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-sizing: border-box;
+    height: 100vh; /* Takes full window height */
+    background: #fff;
+    z-index: 1000;
+    transition: right 0.3s ease;
+    overflow-y: auto; 
+    overflow-x: hidden;
 }
 
 /* Active slider visibility modifier */
@@ -1564,7 +1560,31 @@ body.side-cart-active .side-cart-drawer {
    transform:translateX(0);
 }
 
-/* Background Overlay Dimmer */
+.cart-drawer-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#paypal-button-container {
+    margin-top: auto;
+    padding-top: 15px;
+}
+
+div#digital-wallet-buttons-container > h4::before {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+    margin: 0 10px;
+}
+div#digital-wallet-buttons-container > h4::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+    margin: 0 10px;
+}
+
 body.side-cart-active::after {
     content: '';
     position: fixed;
