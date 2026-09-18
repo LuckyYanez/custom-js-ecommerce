@@ -87,7 +87,7 @@ html, body {
 
 
 body {
-    font-family: 'Maven Pro',Arial,sans-serif;
+    font-family: MavenPro,Arial,sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 15px;
@@ -194,7 +194,7 @@ input#search-query {
     line-height: 1.42;
     vertical-align: baseline;
     width: 100%;
-    font-family: 'Maven Pro', Arial, sans-serif;
+    font-family: 'MavenPro', Arial, sans-serif;
     font-size: 14px;
 }
 
