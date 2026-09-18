@@ -8,8 +8,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // 🔐 ENV VALUES: Fallback strings protect from crash if your cloud configuration is sleeping
-const PAYPAL_CLIENT_ID = "AYSF7qwzaeCE-aw56_3hRv8-NS1EfWMdIID2mU2hu6Q2DI0oS_F9YmdkOblf6vcqannNrsNKxBukd9m7";
-const PAYPAL_SECRET = "EEKyo8D6sD94WA4AXRs1LvGOS2uZBfRkTeqAkcWjozKgg8TrliNZoixA6nnsg71ygEiR4m1JeoVmG_9v";
+const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+const PAYPAL_SECRET = process.env.PAYPAL_SECRET;
 const PAYPAL_API = "https://api-m.sandbox.paypal.com"; 
 
 app.use(cors());
@@ -149,6 +149,31 @@ app.post('/api/orders', async (req, res) => {
 
 // 📦 API ENDPOINT B: Capture Order (Priority placement ensures clean data handoffs)
 app.post('/api/orders/:orderId/capture', async (req, res) => {
+    for (const userItem of cartItems) {
+    const trueProduct = productCatalog.find(p => p.id === userItem.id);
+    
+    if (!trueProduct) {
+        return res.status(400).json({ error: "Product not found" });
+    }
+
+    // 1. Calculate true unit cost mapping out active discount sale properties
+    let finalUnitPrice = trueProduct.price;
+    if (trueProduct.isOnSale && trueProduct.saleDiscountPercentage) {
+        finalUnitPrice = trueProduct.price * (1 - (trueProduct.saleDiscountPercentage / 100));
+    }
+
+    // 2. 🟢 SECURE ADDITION: Find the matching size object and grab its surcharge value
+    let sizeSurcharge = 0;
+    if (trueProduct.sizes && Array.isArray(trueProduct.sizes)) {
+        const matchedSizeObj = trueProduct.sizes.find(s => s.size === userItem.size);
+        if (matchedSizeObj && matchedSizeObj.surcharge) {
+            sizeSurcharge = parseFloat(matchedSizeObj.surcharge);
+        }
+    }
+
+    // 3. Add securely calculated base cost + size surcharge multiplied by quantity
+    calculatedTotal += (finalUnitPrice + sizeSurcharge) * parseInt(userItem.quantity, 10);
+}
   try {
     const { orderId } = req.params;
     console.log(`📥 Received capture instruction for Order ID: ${orderId}`);
