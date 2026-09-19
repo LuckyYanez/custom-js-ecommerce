@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path'); 
 const productCatalog = require('./products.json');
 require('dotenv').config();
+const db = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
