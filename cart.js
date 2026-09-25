@@ -1,5 +1,4 @@
-// cart.js
-// Dynamic memory cache trackers mapped post-injection lifecycle state
+
 let cartDrawer = null;
 let cartCloseBtn = null;
 let cartItemsContainer = null;
@@ -10,9 +9,7 @@ const generalCartTriggers = document.querySelectorAll('.cart-trigger-anchor, #ca
 function getFreshCartState() {
     return JSON.parse(localStorage.getItem('user_shopping_cart')) || [];
 }
-
-// 📦 ENGINE ACTION: Pulls the structural template into the active screen row thread
-// 📦 ENGINE ACTION: Pulls the structural template into the active screen row thread
+fd
 async function loadAndInjectSharedCartMarkup() {
     try {
         const response = await fetch('/cart.html');
@@ -41,24 +38,18 @@ async function loadAndInjectSharedCartMarkup() {
 
         // 🟢 PAYPAL SMART BUTTON INTEGRATION PLACEMENT
         // This makes sure the target container div exists before trying to render into it!
-        if (window.paypal && document.getElementById('paypal-button-container')) {
+        if (window.paypal && document.getElementById('paypal-cart-button-container')) {
             window.paypal.Buttons({
-                        style: {
+            style: {
             layout: 'vertical',
             color:  'gold',
-            shape:  'rect',       // Keeps the button rectangular
-            borderRadius: 30,     // ⚡ Sets the corner rounding (Max allowed by PayPal is 30)
+            shape:  'rect',  
+            borderRadius: 30,  
             tagline: false
-        },
-
-        // 🛒 A. TRIGGERED WHEN CUSTOMER CLICKS PAYPAL BUTTON
-        createOrder: async function() {
-            // ... your existing createOrder fetch code ...
         },
 
         // 💳 B. TRIGGERED WHEN CUSTOMER APPROVES PAYMENT
         onApprove: async function(data, actions) {
-            // ... your existing onApprove fetch code ...
         },
     createOrder: async function() {
     try {
@@ -89,7 +80,7 @@ async function loadAndInjectSharedCartMarkup() {
         alert(`Checkout failed: ${err.message}`);
     }
 }               
-            }).render('#paypal-button-container');
+            }).render('#paypal-cart-button-container');
         }
 
     } catch (error) {

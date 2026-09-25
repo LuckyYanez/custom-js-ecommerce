@@ -96,7 +96,7 @@
             </div>
         </div>
     </header>
-
+<div class="body-container">
  <div class="checkout-main-container">
     
     <!-- ⬅️ LEFT COLUMN: Order Details, Items, Matrix Fees & Fixed Payments -->
@@ -141,18 +141,41 @@
         </div>
 
 <!-- LEFT COLUMN PAYMENT PLACEMENT REGION -->
-<!-- 💡 Wrapped everything inside your parent wrapper -->
-<div class="payment-gateway-wrapper" id="secure-payment-step-wrapper" class="payment-hidden" style="margin-top: 25px;">
+<div
+    class="payment-gateway-wrapper"
+    id="secure-payment-step-wrapper"
+    style="margin-top: 25px;"
+>
     <h3>Payment Method</h3>
-    
-    <!-- Dynamic instruction text block that disappears when verified -->
-    <p class="payment-subtext" id="paypal-lock-instruction-text" style="color: #d35400; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem;">
-        ⚠️ Complete and submit the Registration Form on the right to authorize payment.
-    </p>
-    
-    <!-- 1. DIGITAL WALLETS CONTAINER (PayPal, GPay buttons load here) -->
-    <!-- Added the required class .digital-wallet-buttons-container so the video script finds it -->
-    <div id="paypal-button-container" class="digital-wallet-buttons-container payment-hidden" style="margin-bottom: 20px; width: 100%;"></div>
+
+    <!-- Shown before delivery information is verified -->
+    <div id="payment-locked-message">
+        <p
+            class="payment-subtext"
+            style="color: #d35400; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem;"
+        >
+            ⚠️ Complete and submit the Registration Form on the right to authorize payment.
+        </p>
+    </div>
+
+    <!-- Shown after delivery information is verified -->
+    <div id="payment-unlocked-message" style="display: none;">
+        <p
+            class="payment-subtext"
+            style="color: #27ae60; font-weight: bold; margin-bottom: 15px; font-size: 0.9rem;"
+        >
+            ✓ Delivery address verified &amp; Account configured.
+            PayPal checkout unlocked.
+        </p>
+    </div>
+
+    <!-- PayPal / Google Pay buttons are rendered here -->
+    <div
+        id="paypal-checkout-button-container"
+        class="digital-wallet-buttons-container payment-buttons-hidden"
+        style="margin-bottom: 20px; width: 100%;"
+    ></div>
+</div>
 
     <!-- 2. SECURE CREDIT / DEBIT CARD INTEGRATION BLOCK -->
     <!-- Added the master wrapper ID #card-fields-container that Fastlane/PayPal targets -->
@@ -188,6 +211,7 @@
 </div>
 
 </div>
+
 
 
     <!-- ➡️ RIGHT COLUMN: Account Registration Form -->
@@ -278,7 +302,7 @@
     CONFIRM DELIVERY & BILLING DETAILS
 </button>
             </form>
-            <p class="login-subtext">Already have an account? <a href="https://Log-in" class="login"><span></span>Login here.</span></a></p>
+            <p class="login-subtext">Already have an account? <a href="/account" class="login"><span></span>Login here.</span></a></p>
         </div>
     </div>
 </div>
@@ -370,7 +394,7 @@
             </div>
         </div>
     </div>
-
+</div>
     <!-- BOTTOM SECTION -->
     <div class="footer-container-bottom">
         <div class="logo-copyright">
@@ -386,7 +410,7 @@
 
 
     <!-- Link your main execution logic script module -->
-<script src="https://paypal.com"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AYSF7qwzaeCE-aw56_3hRv8-NS1EfWMdIID2mU2hu6Q2DI0oS_F9YmdkOblf6vcqannNrsNKxBukd9m7&currency=USD&components=buttons,hosted-fields"></script>
 <script src="product-detail.js"></script>
 <script src="cart.js"></script>
 <script src="checkout.js"></script>

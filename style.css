@@ -1526,6 +1526,12 @@ border-bottom: 1px solid #eee;
     text-transform: lowercase;
 }
 
+.body-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+
 /* ==========================================================================
    SLIDE-PUSH DRAWER CART SYSTEM ARCHITECTURE
    ========================================================================== */
@@ -1666,16 +1672,7 @@ body.side-cart-active::after {
     display: flex;
     flex-direction: row;
     gap: 40px;
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
     box-sizing: border-box;
-}
-
-.checkout-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
 }
 
 /* Checkout Item Custom Quantity Steppers Adjusters styling links */
@@ -1720,7 +1717,18 @@ body.side-cart-active::after {
     gap: 15px;
 }
 
-/* Functional Row Alignment Layout Classes */
+.payment-locked {
+    display: block;
+}
+
+.payment-buttons-hidden {
+    display: none;
+}
+
+.payment-buttons-visible {
+    display: block;
+}
+
 .manifest-row {
     display: flex;
     justify-content: space-between;
@@ -1796,6 +1804,230 @@ body.side-cart-active::after {
     display: none;
 }
 
+.account-container {
+    max-width: 520px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.account-card {
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.account-card h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.account-card .form-group {
+    margin-bottom: 18px;
+}
+
+.account-card label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+}
+
+.account-card .form-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#login-btn,
+#signup-btn,
+#show-signup-btn,
+#logout-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#login-btn,
+#signup-btn,
+#logout-btn {
+    background: #000;
+    color: #fff;
+}
+
+#show-signup-btn {
+    background: #f1f1f1;
+    color: #111;
+}
+
+.account-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 25px 0;
+    color: #888;
+}
+
+.account-divider::before,
+.account-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+}
+
+.account-divider span {
+    font-size: 12px;
+}
+
+#login-status,
+#signup-status,
+#logout-status {
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.account-actions {
+    display: grid;
+    gap: 10px;
+    margin: 25px 0;
+}
+
+.account-action {
+    display: block;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #111;
+    text-decoration: none;
+}
+
+        .account-page {
+            padding: 60px 20px;
+        }
+
+        .account-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .account-intro {
+            margin-bottom: 30px;
+        }
+
+        .account-card {
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .account-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper .form-input {
+            padding-right: 65px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .password-help {
+            display: block;
+            margin-top: 6px;
+            color: #666;
+        }
+
+        .account-button,
+        .secondary-account-button,
+        .logout-button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .account-button {
+            width: 100%;
+        }
+
+        .secondary-account-button {
+            background: #eee;
+        }
+
+        .logout-button {
+            background: #c0392b;
+            color: white;
+        }
+
+        .marketing-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .marketing-option input {
+            margin-top: 4px;
+        }
+
+        .marketing-option label {
+            font-size: 14px;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .account-message {
+            margin-top: 15px;
+        }
+
+        .account-information p {
+            margin: 10px 0;
+        }
+
+        .account-logout-section {
+            text-align: right;
+        }
 
 
 

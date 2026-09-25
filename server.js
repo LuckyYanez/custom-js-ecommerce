@@ -219,4 +219,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.get('/account', (req, res) => {
+    res.sendFile(path.join(__dirname, 'account.html'));
+});
+
 app.listen(PORT, () => console.log(`🚀 Success: Server listening cleanly on active port ${PORT}`));

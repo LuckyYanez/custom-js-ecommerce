@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Account</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+    <header class="main-header">
+            <a href="index.html" class="logo-link">
+                <img src="assets/logo%20and%20icons/newLogo.webp" alt="JS Portfolio Logo" width="170">
+
+        <div class="main-header-right">
+            <a href="/account" class="nav-link custom-account-link">
+                Account
+            </a>
+        </div>
+    </header>
+
+
+    <!-- =========================
+         ACCOUNT PAGE
+    ========================== -->
+    <main class="account-page">
+
+        <div class="account-container">
+
+            <!-- =========================
+                 LOGGED OUT STATE
+            ========================== -->
+            <div id="logged-out-section">
+
+                <h1>My Account</h1>
+
+                <p class="account-intro">
+                    Sign in to manage your account and access your saved information.
+                </p>
+
+
+                <!-- LOGIN -->
+                <section id="login-section" class="account-card">
+
+                    <h2>Sign In</h2>
+
+                    <form id="login-form">
+
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input
+                                type="email"
+                                id="login-email"
+                                class="form-input"
+                                placeholder="Enter your email"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+
+                            <div class="password-wrapper">
+                                <input
+                                    type="password"
+                                    id="login-password"
+                                    class="form-input"
+                                    placeholder="Enter your password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    id="login-password-toggle"
+                                >
+                                    Show
+                                </button>
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            id="login-btn"
+                            class="account-button"
+                        >
+                            Sign In
+                        </button>
+
+                    </form>
+
+                    <p id="login-message" class="account-message"></p>
+
+                </section>
+
+
+                <!-- CREATE ACCOUNT -->
+                <section id="signup-section" class="account-card">
+
+                    <h2>Create an Account</h2>
+
+                    <p>
+                        Create an account to save your information for future purchases.
+                    </p>
+
+                    <form id="signup-form">
+
+                        <div class="form-group">
+                            <label for="signup-first-name">First Name</label>
+
+                            <input
+                                type="text"
+                                id="signup-first-name"
+                                class="form-input"
+                                placeholder="First name"
+                                required
+                            >
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="signup-last-name">Last Name</label>
+
+                            <input
+                                type="text"
+                                id="signup-last-name"
+                                class="form-input"
+                                placeholder="Last name"
+                                required
+                            >
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+
+                            <input
+                                type="email"
+                                id="signup-email"
+                                class="form-input"
+                                placeholder="Email address"
+                                required
+                            >
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+
+                            <div class="password-wrapper">
+                                <input
+                                    type="password"
+                                    id="signup-password"
+                                    class="form-input"
+                                    placeholder="At least 8 characters"
+                                    minlength="8"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="password-toggle"
+                                    id="signup-password-toggle"
+                                >
+                                    Show
+                                </button>
+                            </div>
+
+                            <small class="password-help">
+                                Your password must contain at least 8 characters.
+                            </small>
+                        </div>
+
+
+                        <!-- MARKETING OPT-IN -->
+                        <div class="marketing-option">
+
+                            <input
+                                type="checkbox"
+                                id="marketing-opt-in"
+                            >
+
+                            <label for="marketing-opt-in">
+                                I'd like to receive promotional emails, exclusive offers,
+                                and product updates.
+                            </label>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            id="signup-btn"
+                            class="account-button"
+                        >
+                            Create Account
+                        </button>
+
+                    </form>
+
+                    <p id="signup-message" class="account-message"></p>
+
+                </section>
+
+            </div>
+
+
+            <!-- =========================
+                 LOGGED IN STATE
+            ========================== -->
+            <div
+                id="logged-in-section"
+                style="display: none;"
+            >
+
+                <h1 id="account-welcome">
+                    Welcome back!
+                </h1>
+
+                <p class="account-intro">
+                    You are currently signed in to your account.
+                </p>
+
+
+                <!-- ACCOUNT INFORMATION -->
+                <section class="account-card">
+
+                    <h2>Account Information</h2>
+
+                    <div class="account-information">
+
+                        <p>
+                            <strong>Email:</strong>
+                            <span id="account-email"></span>
+                        </p>
+
+                        <p>
+                            <strong>Name:</strong>
+                            <span id="account-name"></span>
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- FUTURE PROFILE SECTION -->
+                <section class="account-card">
+
+                    <h2>Profile</h2>
+
+                    <p>
+                        Your saved personal information will appear here.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="secondary-account-button"
+                        id="edit-profile-btn"
+                    >
+                        Edit Profile
+                    </button>
+
+                </section>
+
+
+                <!-- FUTURE ADDRESS SECTION -->
+                <section class="account-card">
+
+                    <h2>Saved Addresses</h2>
+
+                    <p>
+                        Your saved shipping and billing addresses will appear here.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="secondary-account-button"
+                        id="manage-addresses-btn"
+                    >
+                        Manage Addresses
+                    </button>
+
+                </section>
+
+
+                <!-- FUTURE ORDERS SECTION -->
+                <section class="account-card">
+
+                    <h2>Orders</h2>
+
+                    <p>
+                        Your previous purchases and order status will appear here.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="secondary-account-button"
+                        id="view-orders-btn"
+                    >
+                        View Orders
+                    </button>
+
+                </section>
+
+
+                <!-- SIGN OUT -->
+                <section class="account-card account-logout-section">
+
+                    <button
+                        type="button"
+                        id="logout-btn"
+                        class="logout-button"
+                    >
+                        Sign Out
+                    </button>
+
+                    <p id="logout-message" class="account-message"></p>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="account.js"></script>
+
+</body>
+</html>

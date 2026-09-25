@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeAddressMirrorEvents();
     initializeCouponInteraction();
     initializeExplicitFormSubmission();
-    initializeAccountOptInToggle(); // 🚀 ADD THIS LINE TO START UP THE TOGGLE!
-    initializePayPalIntegration(); 
     renderCheckoutOrderSummary();
 });
 
@@ -236,8 +234,10 @@ function initializeAccountOptInToggle() {
 }
 
 
-// 6. EXPLICIT INTERCEPT ACCOUNT CREATION TRIGGER LISTENER (Fixed)
 // ==========================================================================
+// 6. EXPLICIT CHECKOUT FORM SUBMISSION
+// ==========================================================================
+
 function initializeExplicitFormSubmission() {
     const form = document.getElementById('checkout-registration-form');
     const saveBtn = document.getElementById('save-profile-details-btn');
@@ -245,191 +245,321 @@ function initializeExplicitFormSubmission() {
     if (!form) return;
 
     form.addEventListener('submit', (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
 
-        if (form.checkValidity()) {
-            isUserDataValidated = true; 
-            
-            renderCheckoutOrderSummary(); 
-
-            if (paypalActionsRef) {
-                paypalActionsRef.enable(); 
-            }
-
-            // Clean button feedback only
-            if (saveBtn) {
-                saveBtn.textContent = "✓ DETAILS VERIFIED";
-                saveBtn.style.background = "#27ae60";
-            }
-
-            // 🔥 FIX: Run the toggle to hide the form/instruction and show payment
-            togglePayPalButtonContainerState();
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
         }
+
+        // The delivery information has now been successfully verified.
+        isUserDataValidated = true;
+
+        // Recalculate subtotal, shipping and grand total.
+        renderCheckoutOrderSummary();
+
+        // Update confirmation button.
+        if (saveBtn) {
+            saveBtn.textContent = "✓ DETAILS VERIFIED";
+            saveBtn.style.background = "#27ae60";
+        }
+
+        // Unlock the payment section.
+        togglePayPalButtonContainerState(true);
+
+        // Render PayPal only after the checkout information is verified.
+        initializePayPalIntegration();
     });
 
+    // If the customer changes any checkout information after verification,
+    // require them to verify the information again.
     form.addEventListener('input', () => {
-        if (isUserDataValidated) {
-            isUserDataValidated = false;
-            if (paypalActionsRef) paypalActionsRef.disable(); 
-            if (saveBtn) {
-                saveBtn.textContent = "RE-VERIFY UPDATED DETAILS";
-                saveBtn.style.background = "#d35400";
-            }
-            renderCheckoutOrderSummary();
+        if (!isUserDataValidated) return;
 
-            // 🔥 FIX: Run the toggle to hide payment and bring back form instructions
-            togglePayPalButtonContainerState();
+        isUserDataValidated = false;
+
+        if (paypalActionsRef) {
+            paypalActionsRef.disable();
         }
+
+        if (saveBtn) {
+            saveBtn.textContent = "RE-VERIFY UPDATED DETAILS";
+            saveBtn.style.background = "#d35400";
+        }
+
+        // Recalculate the checkout summary.
+        renderCheckoutOrderSummary();
+
+        // Hide payment again until the updated information is verified.
+        togglePayPalButtonContainerState(false);
     });
 }
 
-function togglePayPalButtonContainerState() {
-    const form = document.getElementById('checkout-registration-form'); // Your registration form container
-    const container = document.getElementById('paypal-button-container');
-    const cardForm = document.getElementById('paypal-card-form');
+
+// ==========================================================================
+// 7. PAYMENT VISIBILITY STATE
+// ==========================================================================
+
+function togglePayPalButtonContainerState(isUnlocked = false) {
+    const container = document.getElementById('paypal-checkout-button-container');
     const lockText = document.getElementById('paypal-lock-instruction-text');
-    
-    if (!form) return;
 
-    if (form.checkValidity() && isUserDataValidated) {
-        // 1. COMPLETELY HIDE the registration form wrapper & warning text
-        form.style.display = "none";
-        if (lockText) lockText.style.display = "none";
-
-        // 2. SHOW the payment blocks by removing the hidden class
-        if (container) container.classList.remove('payment-hidden');
-        if (cardForm) cardForm.classList.remove('payment-hidden');
-        
-        if (paypalActionsRef) paypalActionsRef.enable();
-    } else {
-        // 1. RE-SHOW the form layout if edited or validation breaks
-        form.style.display = "block";
-        if (lockText) {
-            lockText.style.display = "block";
-            lockText.textContent = "⚠️ Complete and submit the Registration Form to authorize payment.";
-        }
-
-        // 2. RE-HIDE the payment panels completely
-        if (container) container.classList.add('payment-hidden');
-        if (cardForm) container.classList.add('payment-hidden');
-        
-        if (paypalActionsRef) paypalActionsRef.disable();
-    }
-}
-
-// Ensure the window map remains intact across scripting files
-window.togglePayPalButtonContainerState = togglePayPalButtonContainerState;
-// ==========================================================================
-// 7. SECURE MULTI-OPTION PAYPAL ENGINE (BUTTONS & INTEGRATED INPUT FIELDS)
-// ==========================================================================
-function initializePayPalIntegration() {
-    if (!window.paypal) {
-        console.error("PayPal Javascript SDK Engine failed parsing step.");
+    if (!container) {
+        console.error("❌ PayPal button container was not found.");
         return;
     }
 
-    // A. CALCULATE DYNAMIC VALUES ENGINE
-    function getCheckoutCalculationsInUsd() {
-        const grandTotalText = document.getElementById('checkout-grand-total')?.textContent || "0";
-        const cleanGrandTotal = parseFloat(grandTotalText.replace(/[^0-9.]/g, '')) || 0;
-        // Convert to USD for sandbox configuration compatibility (1 USD = 56 PHP)
-        return (cleanGrandTotal / 56).toFixed(2);
+    if (isUnlocked) {
+
+        // Show the success message.
+        if (lockText) {
+            lockText.textContent =
+                "✓ Delivery address verified & Account configured. PayPal checkout unlocked.";
+
+            lockText.style.color = "#2ecc71";
+            lockText.style.display = "block";
+        }
+
+        // Show PayPal container.
+        container.classList.remove('payment-buttons-hidden');
+        container.classList.add('payment-buttons-visible');
+
+        console.log("✅ Payment section unlocked.");
+
+    } else {
+
+        // Show the instruction message.
+        if (lockText) {
+            lockText.textContent =
+                "⚠️ Complete and submit the Registration Form on the right to authorize payment.";
+
+            lockText.style.color = "#d35400";
+            lockText.style.display = "block";
+        }
+
+        // Hide PayPal container.
+        container.classList.remove('payment-buttons-visible');
+        container.classList.add('payment-buttons-hidden');
+
+        console.log("🔒 Payment section locked.");
+    }
+}
+
+
+// Make the function available to other scripts if necessary.
+window.togglePayPalButtonContainerState =
+    togglePayPalButtonContainerState;
+
+
+// ==========================================================================
+// 8. PAYPAL BUTTON INTEGRATION
+// ==========================================================================
+
+let paypalButtonsRendered = false;
+
+function initializePayPalIntegration() {
+
+    // Prevent PayPal from being rendered multiple times.
+    if (paypalButtonsRendered) {
+        console.log("ℹ️ PayPal buttons already rendered.");
+        return;
     }
 
-    // B. OPTION 1: THE STANDARD PAYPAL BUTTONS
+    if (!window.paypal) {
+        console.error("❌ PayPal JavaScript SDK is not loaded.");
+        return;
+    }
+
+    const container = document.getElementById('paypal-checkout-button-container');
+
+    if (!container) {
+        console.error("❌ #paypal-checkout-button-container was not found.");
+        return;
+    }
+
+    if (!isUserDataValidated) {
+        console.log("🔒 PayPal remains locked until delivery information is verified.");
+        return;
+    }
+
+    console.log("🟢 Starting PayPal button rendering...");
+
+    // Prevent another rendering attempt.
+    paypalButtonsRendered = true;
+
     window.paypal.Buttons({
+
+        // --------------------------------------------------------------
+        // PAYPAL INITIALIZATION
+        // --------------------------------------------------------------
+    style: {
+        layout: 'vertical',
+        color: 'gold',
+        shape: 'rect',
+        borderRadius: 30,
+        tagline: false
+    },
         onInit: function(data, actions) {
+
             paypalActionsRef = actions;
-            // Verify structural state right on kickoff loop execution runs
-            const form = document.getElementById('checkout-registration-form');
-            if (form && form.checkValidity() && isUserDataValidated) {
-                paypalActionsRef.enable();
-                document.getElementById('paypal-card-form')?.classList.remove('paypal-buttons-disabled');
+
+            if (isUserDataValidated) {
+                actions.enable();
+
+                console.log("✅ PayPal buttons enabled.");
             } else {
-                paypalActionsRef.disable();
+                actions.disable();
+
+                console.log("🔒 PayPal buttons disabled.");
             }
         },
+
+
+        // --------------------------------------------------------------
+        // CREATE PAYPAL ORDER
+        // --------------------------------------------------------------
+
         createOrder: function(data, actions) {
-            const calculatedTotalUsd = getCheckoutCalculationsInUsd();
-            if (parseFloat(calculatedTotalUsd) <= 0) {
+
+            const grandTotalText =
+                document.getElementById('checkout-grand-total')?.textContent || "0";
+
+            const cleanGrandTotal =
+                parseFloat(
+                    grandTotalText.replace(/[^0-9.]/g, '')
+                ) || 0;
+
+            if (cleanGrandTotal <= 0) {
                 alert("Cart is empty. Payment creation halted.");
+
                 return actions.reject();
             }
+
+            /*
+             * TEMPORARY PAYMENT CONFIGURATION
+             *
+             * Your current PayPal SDK setup is configured for USD,
+             * so we are keeping the existing PHP -> USD conversion
+             * temporarily.
+             *
+             * We will replace this with proper PHP payment processing
+             * through server.js in the next step.
+             */
+
+            const calculatedTotalUsd =
+                (cleanGrandTotal / 56).toFixed(2);
+
+            console.log(
+                "💰 PayPal order amount:",
+                calculatedTotalUsd,
+                "USD"
+            );
+
             return actions.order.create({
-                purchase_units: [{ amount: { currency_code: 'USD', value: calculatedTotalUsd } }]
+
+                purchase_units: [{
+                    amount: {
+                        currency_code: 'USD',
+                        value: calculatedTotalUsd
+                    }
+                }]
+
             });
         },
+
+
+        // --------------------------------------------------------------
+        // PAYMENT APPROVED
+        // --------------------------------------------------------------
+
         onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                localStorage.removeItem('user_shopping_cart');
-                alert(`Transaction approved! Thank you, ${details.payer.name.given_name}.`);
-                window.location.href = 'index.html';
-            });
-        }
-    }).render('#paypal-button-container');
 
-    // C. OPTION 2: THE HOSTED INTEGRATED CREDIT CARD FIELDS
-    if (window.paypal.HostedFields.isEligible()) {
-        window.paypal.HostedFields.render({
-            styles: {
-                'input': { 'font-size': '14px', 'font-family': 'sans-serif', 'color': '#333' },
-                ':focus': { 'color': '#0070ba' }
-            },
-            fields: {
-                number: { selector: '#card-number', placeholder: '4111 1111 1111 1111' },
-                cvv: { selector: '#card-cvv', placeholder: '123' },
-                expiry: { selector: '#card-expiry', placeholder: 'MM/YY' }
-            }
-        }).then(function(hostedFieldsInstance) {
-            const payButton = document.getElementById('card-pay-btn');
-            if (!payButton) return;
+            console.log(
+                "💳 PayPal payment approved. Capturing transaction..."
+            );
 
-            payButton.addEventListener('click', function() {
-                const totalUsd = getCheckoutCalculationsInUsd();
-                
-                // Triggers safe checkout directly inside your custom form boxes
-                hostedFieldsInstance.submit({
-                    cardholderName: document.getElementById('reg-full-name')?.value || 'Guest Shopper',
-                    billingAddress: {
-                        postalCode: document.getElementById('bill-zip')?.value || '1600'
-                    }
-                }).then(function(payload) {
+            return actions.order.capture()
+
+                .then(function(details) {
+
+                    console.log(
+                        "✅ PayPal transaction captured successfully.",
+                        details
+                    );
+
                     localStorage.removeItem('user_shopping_cart');
-                    alert("Credit Card transaction approved successfully by Sandbox engine!");
+
+                    const customerName =
+                        details?.payer?.name?.given_name || "Customer";
+
+                    alert(
+                        `Transaction approved! Thank you, ${customerName}.`
+                    );
+
                     window.location.href = 'index.html';
-                }).catch(function(err) {
-                    console.error("Card Submission Runtime Error:", err);
-                    alert("Card validation failure details: " + err.message);
+                })
+
+                .catch(function(error) {
+
+                    console.error(
+                        "❌ PayPal capture failed:",
+                        error
+                    );
+
+                    alert(
+                        "The PayPal payment could not be completed. Please try again."
+                    );
                 });
-            });
-        });
-    }
-}
+        },
 
-// D. UPGRADE THE STATE GATE SWITCHING FUNCTION TO TOGGLE THE HOUSING BOX
-function togglePayPalButtonContainerState() {
-    const form = document.getElementById('checkout-registration-form');
-    const container = document.getElementById('paypal-button-container');
-    const cardForm = document.getElementById('paypal-card-form');
-    const lockText = document.getElementById('paypal-lock-instruction-text');
-    if (!form) return;
 
-    if (form.checkValidity() && isUserDataValidated) {
-        if (container) container.classList.remove('paypal-buttons-disabled');
-        if (cardForm) cardForm.classList.remove('paypal-buttons-disabled');
-        if (lockText) {
-            lockText.textContent = "✓ Delivery address verified & Account configured. PayPal checkout unlocked.";
-            lockText.style.color = "#2ecc71";
+        // --------------------------------------------------------------
+        // PAYMENT CANCELLED
+        // --------------------------------------------------------------
+
+        onCancel: function(data) {
+
+            console.log(
+                "ℹ️ Customer cancelled the PayPal checkout.",
+                data
+            );
+        },
+
+
+        // --------------------------------------------------------------
+        // PAYMENT ERROR
+        // --------------------------------------------------------------
+
+        onError: function(error) {
+
+            console.error(
+                "❌ PayPal button error:",
+                error
+            );
+
+            // Allow another render attempt if PayPal failed.
+            paypalButtonsRendered = false;
         }
-    } else {
-        if (container) container.classList.add('paypal-buttons-disabled');
-        if (cardForm) cardForm.classList.add('paypal-buttons-disabled');
-        if (lockText) {
-            lockText.textContent = "⚠️ Click 'VERIFY DELIVERY INFO & CREATE ACCOUNT' on the right to process shipping costs.";
-            lockText.style.color = "#e67e22";
-        }
-    }
-}
-// Overwrite window functions cleanly
-window.togglePayPalButtonContainerState = togglePayPalButtonContainerState;
 
+    })
+
+    .render('#paypal-checkout-button-container')
+
+    .then(function() {
+
+        console.log(
+            "✅ PayPal buttons rendered successfully."
+        );
+
+    })
+
+    .catch(function(error) {
+
+        paypalButtonsRendered = false;
+
+        console.error(
+            "❌ PayPal button rendering failed:",
+            error
+        );
+    });
+}
