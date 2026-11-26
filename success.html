@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <main class="receipt-page">
+        <section class="receipt-card">
+            <div id="receipt-loading" class="receipt-message">
+                <h1>Loading your receipt...</h1>
+                <p>Please wait while we retrieve your order details.</p>
+            </div>
+
+            <div id="receipt-error" class="receipt-message" hidden>
+                <h1>Unable to load receipt</h1>
+                <p id="receipt-error-message">
+                    Please check your receipt link and try again.
+                </p>
+                <div class="receipt-actions">
+                    <a href="index.html">Return to Store</a>
+                </div>
+            </div>
+
+            <div id="receipt-content" hidden>
+                <header class="receipt-heading">
+                    <h1 id="receipt-title">Order Confirmation</h1>
+                    <p id="receipt-message">
+                        Thank you for your purchase.
+                    </p>
+                    <span id="receipt-status" class="receipt-status"></span>
+                </header>
+
+                <div class="receipt-details">
+                    <div>
+                        <span class="receipt-detail-label">Order Reference</span>
+                        <strong id="receipt-order-id"></strong>
+                    </div>
+
+                    <div>
+                        <span class="receipt-detail-label">Order Date</span>
+                        <strong id="receipt-date"></strong>
+                    </div>
+
+                    <div>
+                        <span class="receipt-detail-label">Payment Status</span>
+                        <strong id="receipt-payment-status"></strong>
+                    </div>
+
+                    <div class="receipt-shipping-address">
+                        <span class="receipt-detail-label">Delivery Address</span>
+                        <strong id="receipt-shipping-address">
+                            Loading delivery address...
+                    </strong>
+                    </div>
+                </div>
+
+                <h2>Item/s Ordered</h2>
+
+                <div style="overflow-x: auto;">
+                    <table class="receipt-items">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>Unit Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="receipt-items-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="receipt-totals">
+                    <div class="receipt-total-row">
+                        <span>Subtotal</span>
+                        <strong id="receipt-subtotal"></strong>
+                    </div>
+
+                    <div class="receipt-total-row">
+                        <span>Discount</span>
+                        <strong id="receipt-discount"></strong>
+                    </div>
+
+                    <div class="receipt-total-row">
+                        <span>Shipping</span>
+                        <strong id="receipt-shipping"></strong>
+                    </div>
+
+                    <div class="receipt-total-row receipt-grand-total">
+                        <span>Total Paid</span>
+                        <strong id="receipt-total"></strong>
+                    </div>
+                </div>
+
+                <div class="receipt-actions">
+                <button type="button" id="print-receipt">
+                    Print / Save as PDF
+                </button>
+
+                <a href="account.html">View Order History</a>
+
+                <a href="index.html">Continue Shopping</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const moneyFormatter = new Intl.NumberFormat('en-PH', {
+            style: 'currency',
+            currency: 'PHP'
+        });
+
+        function formatMoney(value) {
+            return moneyFormatter.format(Number(value) || 0);
+        }
+
+        function setText(id, value) {
+            document.getElementById(id).textContent = value ?? '';
+        }
+
+        function showReceiptError(message) {
+            document.getElementById('receipt-loading').hidden = true;
+            document.getElementById('receipt-content').hidden = true;
+            document.getElementById('receipt-error').hidden = false;
+            setText('receipt-error-message', message);
+        }
+
+        async function loadReceipt() {
+            const params = new URLSearchParams(window.location.search);
+            const receiptToken = params.get('receipt');
+
+            if (!receiptToken) {
+                showReceiptError(
+                    'No receipt link was provided. Please use the link from your completed checkout.'
+                );
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    '/api/orders/receipt/' + encodeURIComponent(receiptToken)
+                );
+
+                const order = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        order.error || 'Unable to retrieve your order.'
+                    );
+                }
+
+                const status = String(order.status || '').toUpperCase();
+                const isCompleted = status === 'COMPLETED';
+
+                setText(
+                    'receipt-title',
+                    isCompleted ? 'Thank You for Your Order!' : 'Order Received'
+                );
+
+                setText(
+                    'receipt-message',
+                    isCompleted
+                        ? 'Your payment has been confirmed. Keep this page as your receipt.'
+                        : 'Your order is saved, but payment is not yet confirmed. Please check back later.'
+                );
+
+                setText('receipt-status', status);
+                setText('receipt-payment-status', status);
+                setText('receipt-order-id', order.id);
+                setText(
+                    'receipt-date',
+                    order.created_at
+                        ? new Date(order.created_at).toLocaleString('en-PH')
+                        : '—'
+                );
+                setText(
+                    'receipt-shipping-address',
+                    formatShippingAddress(order.shipping_address)
+        );
+                function formatShippingAddress(address) {
+                if (!address) {
+                    return 'Delivery address unavailable for this order.';
+            }
+
+                // Support a saved address represented as plain text.
+                if (typeof address === 'string') {
+                return address.trim() ||
+                'Delivery address unavailable for this order.';
+            }
+
+                // Support a structured address saved by the server.
+            const parts = [
+        address.full_name,
+        address.unit,
+        address.street,
+        address.barangay || address.brgy,
+        address.city,
+        address.region,
+        address.zip || address.postal_code
+    ];
+
+    const formatted = parts
+        .filter(value => value !== null && value !== undefined)
+        .map(value => String(value).trim())
+        .filter(Boolean);
+
+    return formatted.length
+        ? formatted.join(', ')
+        : 'Delivery address unavailable for this order.';
+}
+
+                const itemsBody = document.getElementById('receipt-items-body');
+                itemsBody.replaceChildren();
+
+                for (const item of (order.order_items || [])) {
+                    const row = document.createElement('tr');
+
+                    const productCell = document.createElement('td');
+                    productCell.textContent =
+                        (item.product_name || item.product_id || 'Product') +
+                        (item.size ? ' (Size: ' + item.size + ')' : '');
+
+                    const quantityCell = document.createElement('td');
+                    quantityCell.textContent = String(item.quantity);
+
+                    const unitPriceCell = document.createElement('td');
+                    unitPriceCell.textContent = formatMoney(item.unit_price);
+
+                    const totalCell = document.createElement('td');
+                    totalCell.textContent = formatMoney(
+                        Number(item.unit_price) * Number(item.quantity)
+                    );
+
+                    row.append(
+                        productCell,
+                        quantityCell,
+                        unitPriceCell,
+                        totalCell
+                    );
+
+                    itemsBody.appendChild(row);
+                }
+
+                setText('receipt-subtotal', formatMoney(order.subtotal));
+                setText(
+                    'receipt-discount',
+                    '-' + formatMoney(order.discount_amount)
+                );
+                setText('receipt-shipping', formatMoney(order.shipping_cost));
+                setText('receipt-total', formatMoney(order.total));
+
+                document.getElementById('receipt-loading').hidden = true;
+                document.getElementById('receipt-content').hidden = false;
+            } catch (error) {
+                console.error('Receipt loading error:', error);
+                showReceiptError(error.message);
+            }
+        }
+
+        document.getElementById('print-receipt').addEventListener(
+            'click',
+            () => window.print()
+        );
+
+        loadReceipt();
+    </script>
+</body>
+</html>
