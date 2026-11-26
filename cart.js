@@ -9,7 +9,7 @@ const generalCartTriggers = document.querySelectorAll('.cart-trigger-anchor, #ca
 function getFreshCartState() {
     return JSON.parse(localStorage.getItem('user_shopping_cart')) || [];
 }
-fd
+
 async function loadAndInjectSharedCartMarkup() {
     try {
         const response = await fetch('/cart.html');
